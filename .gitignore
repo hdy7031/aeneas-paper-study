@@ -1,0 +1,11 @@
+# Local-only release instructions and verification artifacts
+CODEX-独立发布指令.txt
+_audit/
+
+# OS noise
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Browser verification log
+debug.log
