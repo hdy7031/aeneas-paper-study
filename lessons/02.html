@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b655d"><meta name="description" content="Aeneas 论文精读第二讲：字符编码、Embedding、Transformer、Attention、多任务监督与余弦相似度。"><title>第二讲 · 从字符到历史特征向量（Transformer 深入修订版）｜Aeneas 论文精读</title><style>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b655d"><meta name="description" content="Aeneas 论文精读第二讲：字符编码、Embedding、Transformer、Attention、多任务监督与余弦相似度。"><title>第二讲 · 从字符到历史特征向量｜Aeneas 论文精读</title><style>
 :root{--ink:#193631;--muted:#647873;--primary:#0c685f;--primary2:#125c56;--line:#dce9e4;--cream:#f8faf7;--white:#fff;--soft:#eaf4ef;--accent:#bb713d;--gold:#d3ae63;--shadow:0 14px 45px rgba(20,66,55,.075);--radius:19px;scroll-behavior:smooth}
 *{box-sizing:border-box}html{scroll-padding-top:85px}body{margin:0;background:var(--cream);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-size:16px;line-height:1.93}a{color:var(--primary);text-decoration-thickness:1px;text-underline-offset:3px}a:hover{color:#073c37}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #db9451;outline-offset:3px}.site-header{position:sticky;top:0;z-index:40;background:rgba(250,252,249,.91);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}.head-inner{max-width:1370px;margin:auto;padding:11px 28px;display:flex;justify-content:space-between;align-items:center;gap:16px}.brand{font-weight:740;font-size:15px;letter-spacing:.03em;text-decoration:none;color:var(--primary)}.brand span{font-weight:500;color:var(--muted);margin-left:10px}.head-tools{display:flex;align-items:center;gap:12px}.head-tools button{font-size:12px;border:1px solid var(--line);border-radius:10px;padding:5px 11px;background:white;color:var(--ink)}.header-progress{height:3px;background:#e8efeb}.header-progress span{display:block;background:var(--primary);height:100%;width:0%;transition:width .3s}.layout{display:grid;grid-template-columns:225px minmax(0,830px) 190px;gap:38px;max-width:1370px;margin:auto;padding:34px 26px 70px}.sidebar{position:sticky;top:101px;align-self:start;max-height:calc(100vh - 126px);overflow:auto;padding:6px 7px 25px 0}.side-label{font-size:11px;font-weight:750;letter-spacing:.15em;color:#829790;margin:0 0 16px;padding-left:13px}.sidebar a{display:flex;gap:12px;border-left:2px solid transparent;text-decoration:none;color:#5d736c;padding:9px 12px;font-size:13px;line-height:1.65;border-radius:0 9px 9px 0}.sidebar a:hover{color:var(--primary);background:#edf6f0}.sidebar a.active{color:var(--primary);border-left-color:var(--primary);background:#e9f4ef;font-weight:720}.sidebar a span{color:#8da69b;font-variant-numeric:tabular-nums}.side-progress{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin:20px 0 0 10px;box-shadow:0 5px 20px rgba(16,72,59,.03)}.side-progress .progress-title{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:#617970}.side-progress strong{font-size:18px;color:var(--primary)}.bar{height:7px;background:#e9f0eb;overflow:hidden;border-radius:99px;margin:12px 0}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#2f9b86,#0c655c);border-radius:99px;transition:width .25s}.side-progress p{font-size:11px;color:#82938b;line-height:1.6;margin:0}.rail{position:sticky;top:106px;align-self:start;color:var(--muted);font-size:12px}.rail-card{border:1px solid var(--line);padding:17px;background:#fff;border-radius:14px;margin-bottom:15px}.rail .minor{font-size:11px;color:#889b95;margin-bottom:10px;font-weight:750;letter-spacing:.1em}.rail b{color:var(--ink);display:block;font-size:14px;margin-bottom:6px}.rail p{margin:5px 0;line-height:1.75}.rail .source-link{display:block;padding:5px 0;font-size:12px}.rail em{font-style:normal;color:var(--primary);font-weight:650}.content{min-width:0}.hero{background:linear-gradient(126deg,#e7f3ed 0%,#f9fcf9 49%,#f3f3e9 100%);border:1px solid #d8e6dd;position:relative;overflow:hidden;border-radius:24px;padding:45px 48px 44px;margin-bottom:36px;box-shadow:var(--shadow)}.hero:after{content:"";position:absolute;right:-100px;top:-140px;width:410px;height:410px;border-radius:50%;border:1px solid rgba(38,112,92,.13);box-shadow:0 0 0 54px rgba(38,112,92,.035),0 0 0 112px rgba(38,112,92,.022);pointer-events:none}.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:760;letter-spacing:.12em;color:var(--primary)}.eyebrow:before{content:"";height:7px;width:7px;border-radius:50%;background:var(--primary)}.hero h1{font-size:clamp(32px,4vw,50px);letter-spacing:-.052em;line-height:1.23;margin:22px 0 18px;position:relative;z-index:1}.hero h1 span{color:var(--primary)}.hero .lead{font-size:17px;color:#506c63;line-height:1.85;max-width:600px;margin:0 0 25px;position:relative;z-index:1}.tags{display:flex;gap:9px;flex-wrap:wrap;position:relative;z-index:1}.tags span{font-size:12px;padding:4px 11px;border:1px solid #d2e6da;background:#f9fdfb;border-radius:999px;color:#406e61}.hero-note{position:relative;z-index:1;border-top:1px solid #d4e6dc;padding-top:17px;margin-top:26px;color:#6b857c;font-size:12px;display:flex;flex-wrap:wrap;gap:8px 22px}.chapter{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:34px 39px 26px;margin:0 0 25px;box-shadow:0 4px 22px rgba(8,67,52,.028)}.chapter-number{font-size:11px;font-weight:770;letter-spacing:.13em;color:var(--primary);text-transform:uppercase;margin-bottom:8px}.chapter h2{font-size:clamp(23px,3.3vw,29px);line-height:1.42;letter-spacing:-.028em;margin:0 0 22px}.chapter h3{font-size:18px;line-height:1.5;margin:25px 0 9px}.chapter p{margin:12px 0;color:#334d46}.chapter strong{color:#1e4b40}.chapter ul{padding-left:21px;color:#334d46}.chapter li{padding-left:3px;margin:6px 0}.quote{border-left:3px solid #398b7b;padding:15px 19px;margin:22px 0;background:#eff7f2;color:#2a5549;border-radius:0 11px 11px 0;font-weight:600}.figure{margin:22px 0 15px}.figure img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:12px;background:white}.figure.figure-small{max-width:550px}.figure figcaption{font-size:12px;color:#87958f;line-height:1.75;margin-top:9px}.figure a{font-weight:650}.note{padding:16px 19px;border-radius:12px;background:#f6f8f3;border:1px solid #e0e8dc;margin:20px 0;font-size:14px;line-height:1.8;color:#496154}.note .note-title{font-weight:770;color:#4c765c;margin-bottom:3px}.columns{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:19px 0}.panel{background:#f8fbf9;border:1px solid #e1ebe5;border-radius:12px;padding:18px}.panel b{font-size:14px}.panel p{font-size:13px;margin-bottom:0}.panel.keyword{background:#fffaf6;border-color:#f0e5d6}.panel.semantic{background:#f1f8f4;border-color:#d8e8df}.demo-options{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 8px}.demo-options button{border:1px solid #d6e8dd;border-radius:10px;background:#fff;padding:8px 14px;color:#4f6f60;font-size:13px}.demo-options button[aria-pressed="true"]{background:#10695d;color:white;border-color:#10695d}.demo-display{background:#f8fbf8;border:1px solid var(--line);border-radius:12px;padding:18px;margin:10px 0 15px;min-height:130px}.demo-display .demo-caption{font-weight:750;color:var(--primary);font-size:12px}.demo-display h4{margin:4px 0 6px;font-size:16px}.demo-display p{font-size:14px;margin:0}.little{font-size:12px!important;color:#7a9185!important}.mini-table{width:100%;border-collapse:collapse;margin:19px 0;font-size:14px}.mini-table th,.mini-table td{border-bottom:1px solid #e1ebe6;padding:13px 12px;text-align:left;vertical-align:top}.mini-table th{background:#f2f8f4;color:#285d50;font-size:12px}.mini-table td:first-child{font-weight:650;color:#1e4d43}.stages{display:grid;gap:0;max-width:605px;margin:22px auto 10px}.stage{border:1px solid #d6e7dc;border-radius:13px;padding:15px 17px;background:#fbfdfb;text-align:center;position:relative}.stage b{display:block;font-size:15px;color:#275b4f}.stage small{display:block;color:#71897f;margin-top:4px;font-size:12px}.stage.important{background:#ecf6f0;border-color:#a7d1bd}.stage.finish{background:#eff8f7;border-color:#90c8bc}.down{height:31px;text-align:center;color:#6caa99;line-height:31px;font-size:22px}.formula{padding:22px;border-radius:12px;text-align:center;border:1px solid #dde6e0;background:#f8faf7;font-family:Georgia,"Times New Roman",serif;font-size:21px;letter-spacing:.025em;margin:18px 0}.formula .t{color:var(--primary);font-weight:700}.formula-explain{font-size:13px!important;color:#768780!important}.vectors{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;background:#f5f9f6;border:1px dashed #bddbcc;border-radius:12px;margin:20px 0;padding:18px}.vectors span{background:#fff;border:1px solid #d6e8dc;border-radius:9px;padding:9px 12px;font-family:ui-monospace,Consolas,monospace;font-size:16px;color:#26715e}.vectors .arrow{border:none;background:transparent;color:#6c9a85}.case-head{background:#f2f8f2;border:1px solid #dfeadf;border-radius:13px;padding:20px;margin:16px 0 20px}.case-head strong{font-size:15px}.case-head p{font-size:13px;margin:7px 0 0;color:#567065}.tag-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}.tag-row span{font-size:11px;background:#fff;border:1px solid #dbe9de;padding:3px 8px;border-radius:7px;color:#638273}.takeaways{display:grid;gap:13px;margin:22px 0}.takeaway{padding:13px 16px 13px 47px;position:relative;background:#f6faf7;border-radius:12px;border:1px solid #e0ebe2;font-size:14px;line-height:1.75}.takeaway::before{content:"✓";position:absolute;left:17px;top:13px;color:var(--primary);font-weight:800}.checks{border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:18px;margin-top:30px;color:#85988d;font-size:12px;flex-wrap:wrap}.complete-btn{border:1px solid #afcfc1;border-radius:9px;background:white;color:var(--primary);padding:8px 15px;font-weight:690;font-size:12px}.complete-btn[data-done="true"]{background:#e6f3ea;border-color:#9ecbad}.quiz-card{border:1px solid #deebe2;border-radius:13px;margin:15px 0;background:#fbfdfb;padding:19px}.quiz-card .quiz-title{font-size:15px;font-weight:690;line-height:1.7}.quiz-card .quiz-index{font-size:11px;color:#569081;font-weight:780;letter-spacing:.09em;margin-bottom:7px}.quiz-card label{display:flex;align-items:flex-start;gap:9px;margin:11px 0;color:#496257;font-size:14px;cursor:pointer;border-radius:8px}.quiz-card input{margin-top:7px;accent-color:var(--primary)}.quiz-card .feedback{display:none;font-size:13px;line-height:1.8;border-radius:9px;padding:10px 12px;margin-top:9px;background:#f2f8f3;color:#406456}.quiz-card .feedback.visible{display:block}.quiz-actions{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-top:19px}.primary-btn{background:var(--primary);border:1px solid var(--primary);color:#fff;border-radius:10px;padding:10px 18px;font-weight:700;font-size:13px}.primary-btn:hover{background:#084f47}.quiz-score{font-size:14px;font-weight:730;color:var(--primary)}.source-list{font-size:13px;color:#5b7269;padding-left:22px}.source-list li{margin:10px 0}.continuation{border-radius:18px;padding:26px 30px;color:#e8f7f2;background:linear-gradient(120deg,#0f635a,#20483f);margin-bottom:25px}.continuation .overline{font-size:11px;letter-spacing:.15em;color:#a5d7c6;font-weight:750}.continuation h2{font-size:24px;margin:6px 0 8px}.continuation p{font-size:14px;color:#c4e1d6;max-width:620px;line-height:1.8;margin:0}.glossary{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:17px}.glossary details{border:1px solid #dfebe4;border-radius:10px;background:#fafdfa;padding:13px 14px}.glossary summary{cursor:pointer;font-weight:700;font-size:14px;color:#335d4e}.glossary details p{font-size:13px;line-height:1.75;margin:8px 0 0}.footer{font-size:12px;color:#82978e;text-align:center;padding:14px 0 28px}.footer button{border:0;background:transparent;color:#738b7f;text-decoration:underline;text-underline-offset:3px;font-size:12px;padding:2px}.only-mobile{display:none}
 @media(max-width:1170px){.layout{grid-template-columns:205px minmax(0,790px);gap:24px}.rail{display:none}.chapter{padding:30px 33px}.hero{padding:40px}}
@@ -70,184 +70,203 @@
 
 /* lesson 02 teaching revision: numeric attention walkthrough */
 .lesson-example{background:#f3f8f3;border:1px solid #d8e8dd;border-left:4px solid #408d79;padding:18px 20px;border-radius:12px;margin:19px 0}.lesson-example .example-label{display:block;color:#31745f;font-size:12px;font-weight:750;margin-bottom:8px}.lesson-example p{font-size:14px;margin:8px 0}.roman-line{font-family:Georgia,"Times New Roman",serif;font-size:24px;letter-spacing:.015em;color:#244c40;overflow-wrap:anywhere}.roman-line mark{background:#fbe6c3;padding:0 4px;border-radius:4px}.teach-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px;line-height:1.7}.teach-table th,.teach-table td{text-align:left;border-bottom:1px solid #deebe3;padding:10px 11px;vertical-align:top}.teach-table th{background:#eaf4ec;color:#245b4b;font-weight:750}.teach-table td:first-child{font-weight:650}.qkv-stage{animation:appear .17s ease}.qkv-stage[hidden]{display:none!important}.qkv-stage>b{font-size:16px;color:#28584a}.qkv-stage p{font-size:14px}.qkv-stage .mathpad{font-size:18px;line-height:2;overflow-wrap:anywhere}.weight-bars{display:grid;gap:11px;margin:17px 0}.weight-bars>div{display:grid;grid-template-columns:75px 1fr 50px;gap:9px;align-items:center;font-size:12px}.weight-bars i{height:14px;background:linear-gradient(90deg,#9dd3bc,#127e69);display:block;border-radius:5px;min-width:5px}.weight-bars em{font-style:normal;font-variant-numeric:tabular-nums;color:#426e5d}.layer-picture{border:1px solid #d7e8df;background:#f8fcf9;border-radius:14px;padding:20px;margin:20px 0;display:flex;align-items:center;flex-direction:column;gap:8px;text-align:center;font-size:14px;color:#275d4c;font-weight:690}.layer-picture>div:not(.head-row){width:100%;max-width:540px;padding:12px;background:#fff;border:1px solid #d9e8de;border-radius:10px}.layer-picture>span{color:#679588;font-weight:500;font-size:12px}.head-row{display:flex;gap:7px;width:100%;max-width:540px}.head-row>div{background:#e3f2e9;border:1px solid #c7e3d4;border-radius:9px;padding:9px 2px;flex:1;font-size:12px}.head-row small{font-size:10px;color:#547e6e}.concept-check{border:1px solid #d6e7dc;border-radius:12px;background:#f4faf5;margin:19px 0;padding:13px 16px}.concept-check summary{cursor:pointer;font-weight:750;color:#245e4b}.concept-check p{font-size:14px}.chapter h3{scroll-margin-top:90px}.chapter .demo-box button:focus-visible{outline:3px solid #54a48b;outline-offset:2px}@keyframes appear{from{opacity:.65;transform:translateY(2px)}to{opacity:1;transform:none}}@media(max-width:600px){.roman-line{font-size:20px}.teach-table{display:block;overflow-x:auto;white-space:normal}.teach-table th,.teach-table td{min-width:95px;padding:9px 7px}.weight-bars>div{grid-template-columns:64px 1fr 44px}.layer-picture{padding:13px}.head-row>div{font-size:11px}}
-</style><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%230c685f'/%3E%3Ctext%20x='32'%20y='45'%20font-family='Georgia,serif'%20font-size='38'%20text-anchor='middle'%20fill='%23fff'%3EA%3C/text%3E%3C/svg%3E"></head><body>
-<header class="site-header"><div class="head-inner"><a href="../index.html" class="brand">Aeneas 论文精读 <span>/ 第二讲</span></a><div class="head-tools"><span style="font-size:12px;color:#83958c" id="mini-progress">0 / 6 小节</span><button type="button" id="print-btn">打印 / PDF</button></div></div><div class="header-progress"><span id="reading-progress"></span></div></header>
-<div class="layout"><aside class="sidebar" aria-label="本讲章节导航"><a class="course-back" href="../index.html">← 返回论文课程目录</a><p class="side-label">LEARNING PATH / 本讲目录</p><nav id="toc"><a href="#sec-01" class="active"><span>01</span> 字符为什么能变成向量</a><a href="#sec-02"><span>02</span> 上下文与位置信息</a><a href="#sec-03"><span>03</span> Attention 的计算直觉</a><a href="#sec-04"><span>04</span> 从字符表示到铭文表示</a><a href="#sec-05"><span>05</span> 多任务学习与历史特征</a><a href="#sec-06"><span>06</span> 余弦相似度与完整串联</a><a href="#test"><span>✓</span> 三题自测</a></nav><div class="side-progress"><div class="progress-title">本讲掌握进度 <strong id="side-percent">0%</strong></div><div class="bar"><i id="side-bar"></i></div><p>点击每节末尾“已掌握”标记；仅保存在当前浏览器。</p></div></aside>
-<main class="content" id="top"><nav class="lesson-nav"><a href="01.html">← 第一讲 · 历史问题</a><a href="../index.html" style="text-align:right">课程目录 →</a></nav><section class="hero"><div class="eyebrow">NATURE 2025 · PAPER STUDY</div><h1>从字符到<span>历史特征向量</span></h1><p class="lead">Aeneas 论文精读 · 第二讲<br>从你熟悉的数组和矩阵出发，弄懂字符、Embedding、Self-Attention 与多任务训练是怎样联系起来的。</p><div class="tags"><span>字符嵌入</span><span>Transformer</span><span>Self-Attention</span><span>多任务学习</span><span>余弦相似度</span></div><div class="hero-note"><span>建议阅读 · 25–35 分钟</span><span>六节正文 + 三道测验</span><span>以 Nature 原文 Fig. 2 / Methods 为准</span></div></section>
-<section class="chapter" id="sec-01" data-section="0"><div class="chapter-number">CHAPTER 01 / 承接第一讲</div><h2>先把“向量”理解为机器能比较的表示</h2>
-<p>上一讲我们提出的问题是：历史学家为什么要找平行铭文？现在问题进入计算机内部：<strong>一块祭坛的文字，究竟怎样变成可以比较的数字？</strong></p>
-<p>你之前学过图像像素：一个 RGB 像素可以写成三个数字 <code>[255, 0, 0]</code>。这组数字直接对应红、绿、蓝三个通道。<strong>文字向量的形式类似，意义却不同。</strong>拉丁字符 <code>s</code> 并没有天然的三维颜色值，模型首先需要按照字符表给字符编号，再通过一个可训练的映射，把编号变成一组实数。</p>
-<div class="card-grid"><div class="concept"><b>离散符号</b><p>字符 <code>s</code>、<code>e</code>、<code>n</code> 本来是类别。假设词表给它们编号 17、4、11——这里只是教学示例，不是 Aeneas 的真实词表编号。</p></div><div class="concept"><b>连续向量</b><p>模型学会把每个字符编号映射到一串浮点数。例如 <code>s → [0.2, -0.3, 0.7, …]</code>。这些值是训练学得的，并非人工指定的语义标签。</p></div></div>
-<div class="demo-box"><h3>互动：字符如何进入模型？</h3><p class="micro">点击任意字符，看看它经历的三个阶段。词表 ID 与示例向量为教学演示，不是论文训练后的参数。</p>
-<div class="token-line" id="char-tokens"></div>
-<div class="demo-explainer" id="char-result" aria-live="polite">选择一个字符，查看「字符 → 编号 → 初始向量」的映射。</div></div>
-<p>在 Aeneas 中，输入是<strong>包含空格、缺损标记的拉丁铭文字符序列</strong>。Methods 给出的特殊缺损符号是 <code>-</code>（已知缺几个字符时使用）和 <code>#</code>（未知长度缺口）。模型还使用一个起始标记，并设置最长 768 字符的输入长度。<a href="https://www.nature.com/articles/s41586-025-09292-5" target="_blank" rel="noopener noreferrer">[原文 Methods: Aeneas’ architecture]</a></p>
-<p class="quote">字符的初始向量还不是“整段铭文的历史向量”。它只是 Transformer 进一步理解文字关系的起点。</p>
-<button class="mark-button" type="button" data-mark="0" aria-pressed="false">□ 已掌握：区分字符编号、初始向量与历史特征</button></section><section class="chapter" id="sec-02" data-section="1"><div class="chapter-number">CHAPTER 02 / 位置与上下文</div><h2>为什么只知道每个字符还不够？</h2>
-<p>看这个英文例子：<code>dog bites man</code> 和 <code>man bites dog</code> 包含几乎相同的字符与词，但意思不同。因为<strong>顺序决定谁做动作，谁受到动作</strong>。古拉丁铭文虽然语言结构不同，同样需要理解字符的先后关系、邻近词汇、缩写位置以及远距离的上下文。</p>
-<p>假如机器只给每个字符分配一个固定向量，却不利用上下文，那么在两个不同句子里的 <code>s</code> 就可能一直是同样的表示，无法直接反映它周围究竟出现了什么文字。</p>
-<div class="demo-box"><h3>互动：同一缺口，可以看到哪些线索？</h3><p class="micro">使用第一讲的美因茨祭坛例子：<code>… et tutelae # salute …</code>。原文被遮挡的 <code>loci pro</code> 出现在中间，因此缺口两侧都能提供线索。本互动只展示“哪些文本可见”，并非真实注意力权重。</p>
-<div class="token-line" id="context-tokens"></div>
-<div class="button-row"><button type="button" class="demo-button active" data-context="both" aria-pressed="true">左右两侧上下文</button><button type="button" class="demo-button" data-context="left" aria-pressed="false">仅左侧</button><button type="button" class="demo-button" data-context="right" aria-pressed="false">仅右侧</button></div>
-<div class="demo-explainer" id="context-explain" aria-live="polite">Transformer 可以把缺口左右两侧的信息综合起来。具体哪些字符更重要，需要由训练学得。</div></div>
-<p>如何知道位置？Aeneas 的 Transformer 采用<strong>旋转位置编码 RoPE</strong>，使注意力计算对字符位置的相对关系有所感知。你现在不需要推导旋转矩阵，只需理解：<strong>知道某个字符是什么，还需要知道它出现在什么位置、与哪些字符相关。</strong></p>
-<button class="mark-button" type="button" data-mark="1" aria-pressed="false">□ 已掌握：理解上下文与位置信息为什么重要</button></section><section class="chapter" id="sec-03" data-section="2">
-<div class="chapter-number">CHAPTER 03 / Transformer 从零推演 · 本讲重点</div>
-<h2>Transformer 到底怎样理解一个字符？</h2>
-<p>前两节我们已经做完一件事：把字符变成向量。但<strong>「每个字符有向量」不等于「模型理解了文字」</strong>。现在沿用同一个例子，不再突然切换新的故事：</p>
-<div class="lesson-example"><span class="example-label">我们一直研究的祭坛铭文（节选）</span><div class="roman-line">… et tutelae <mark>#</mark> salute …</div><p>原文遮住的是 <code>loci pro</code>，<code>#</code> 表示不知道缺少多少字符。模型要理解这个缺口，必须参考左边的 <code>tutelae</code> 和右边的 <code>salute</code>，而不是机械地续写左侧文字。</p></div>
+</style><link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%230c685f'/%3E%3Ctext%20x='32'%20y='45'%20font-family='Georgia,serif'%20font-size='38'%20text-anchor='middle'%20fill='%23fff'%3EA%3C/text%3E%3C/svg%3E"><link rel="stylesheet" href="../assets/course.css?v=20261025"><script defer src="../assets/course.js?v=20261025"></script><script defer src="../assets/lesson02.js?v=20261025"></script></head><body><header class="site-header"><div class="head-inner"><a href="../index.html" class="brand">Aeneas 论文精读 <span>/ 第二讲</span></a><div class="head-tools"><span id="mini-progress" class="micro">0 / 6 小节</span><button id="print-btn" type="button">打印 / PDF</button></div></div><div class="header-progress"><span id="reading-progress"></span></div></header><div class="layout"><aside class="sidebar"><a class="course-back" href="../index.html">← 课程目录</a><div class="side-label">本讲学习路径</div><nav id="toc"><a href="#sec-01"><span>01</span>字符怎样进入模型</a><a href="#sec-02"><span>02</span>手算一次 Attention</a><a href="#sec-03"><span>03</span>从单头到 16 层</a><a href="#sec-04"><span>04</span>对照原图看分支</a><a href="#sec-05"><span>05</span>训练怎样改变表示</a><a href="#sec-06"><span>06</span>检索与课堂汇报</a><a href="#test">测验与复述检查</a></nav><div class="side-progress"><div class="progress-title">本讲掌握进度 <strong id="side-percent">0%</strong></div><div class="bar"><i id="side-bar"></i></div>
+<p>沿用原有 6 节进度与测验记录，升级后建议重读。</p></div></aside><main class="content" id="top">
+<nav class="lesson-nav"><a href="01.html">← 第一讲 · 历史问题</a><a href="#report">20 分钟汇报提纲 ↓</a></nav>
+<section class="hero"><div class="eyebrow">LESSON 02 · 从表示到历史检索</div><h1>跟着一行字符，<br>走完 <span>Aeneas 的计算</span></h1>
+<p class="lead">这一讲只追一条主线：模型怎样把转录文字变成可检索的历史线索？先算清一个 Attention，再把它放回原论文。</p><div class="tags"><span>贯穿例子：senatus</span><span>可手算</span><span>对照 Fig. 2</span></div><div class="reading-route">先读每节主线和图注；需要上台讲解时再展开“可能追问”。无需先学完整线性代数或微积分。建议分两次学习：先完成 01–03，再读 04–06。所有小数例子均为教学设定。</div></section>
 
-<h3>3.1 从「看见字符」到「参考上下文」</h3>
-<p>把某一层中 <code>#</code> 的向量叫作 <code>x#</code>。同一层还有其他字符位置的向量，例如 <code>x₁、x₂、x₃…</code>。Attention 做的是：<strong>让 <code>#</code> 这个位置有选择地参考其他位置的信息，再生成一个更新后的表示。</strong></p>
-<p>可以先用查阅资料作类比：你有一个问题（Query），每条资料有索引（Key）和实际内容（Value）。你用问题与索引比较，判断该看哪几条资料，然后按重要程度吸收其中的内容。</p>
-<div class="card-grid">
-<div class="concept"><b>Q · Query（查询向量）</b><p>这个位置在当前层「想找什么信息」。由当前向量经过可学习的线性变换得到。</p></div>
-<div class="concept"><b>K · Key（匹配向量）</b><p>每个位置可供匹配的特征。Q 和 K 用来打分；不是实际数据库中的关键词。</p></div>
-<div class="concept"><b>V · Value（内容向量）</b><p>被关注位置真正传递过来的特征。最后加权求和的是 V，不是 K。</p></div>
-<div class="concept"><b>新的上下文信息</b><p>多个位置的 V 按注意力权重合成。这个结果经过后续处理，更新目标位置的表示。</p></div>
-</div>
-<div class="note"><div class="note-title">这里容易误解的一点</div>Q、K、V 不是研究者事先手写的三个标签，也不是三套独立的文本。<strong>它们都从同一层的输入向量计算出来</strong>，只是分别经过不同的可训练参数矩阵：<code>Q=XW_Q</code>、<code>K=XW_K</code>、<code>V=XW_V</code>。训练会改变这些矩阵，让模型学会如何匹配和传递信息。</div>
+<section class="chapter" id="sec-01" data-section="0"><div class="chapter-number">01 / 输入表示</div>
+<h2>先让文字进入计算，再让它读到上下文</h2>
+<p>第一讲已经知道：我们要为一条铭文寻找值得比较的参照。现在先看真实原图中的一句话：<em>Senatus populusque Romanus</em>（罗马元老院与人民）。为避免数字过多，本讲沿用其中的 <code>senatus</code>（元老院）做演示；它是<strong>原图短语的局部，不是完整铭文，也不是美因茨祭坛的转录</strong>。</p>
 
-<h3>3.2 用真实算术走一遍 Attention（可逐步点击）</h3>
-<p>接下来我们故意把问题缩小：假设 <code>#</code> 只参考三个简化的信息位置，匹配分数分别为 <strong>2、1、0</strong>。它们是<strong>自造的教学数值</strong>，不属于 Aeneas 的真实权重。我们暂时把缩放后的点积分数直接设为这三个数字，避免一开始被矩阵维度干扰。</p>
-<div class="demo-box" id="attention-walkthrough">
-<h3>交互演算 · 从打分到新向量</h3>
-<div class="button-row" role="group" aria-label="切换注意力计算步骤">
-<button type="button" class="demo-button active" data-qkv-step="1" aria-pressed="true">① 计算匹配分数</button>
-<button type="button" class="demo-button" data-qkv-step="2" aria-pressed="false">② Softmax</button>
-<button type="button" class="demo-button" data-qkv-step="3" aria-pressed="false">③ 加权汇总 V</button>
-<button type="button" class="demo-button" data-qkv-step="4" aria-pressed="false">④ 得到什么</button></div>
-<div class="qkv-stage" data-qkv-panel="1"><b>第一步：Q 与每个 K 比较</b><p>为理解缺口位置 <code>#</code>，它的 Q 分别与三个位置的 K 做点积。假设得到下表：</p>
-<table class="teach-table"><thead><tr><th>参考位置</th><th>匹配分数</th><th>暂时的直觉</th></tr></thead><tbody><tr><td>左侧 tutelae</td><td>2</td><td>相对更相关</td></tr><tr><td>右侧 salute</td><td>1</td><td>有一定关系</td></tr><tr><td>其他位置 et</td><td>0</td><td>相对较弱</td></tr></tbody></table><p>这是<strong>相对匹配分数</strong>，不是 2%、1%、0%，也还不是概率。</p></div>
-<div class="qkv-stage" data-qkv-panel="2" hidden><b>第二步：用 Softmax 把分数变成权重</b><p>对 [2, 1, 0] 先取指数，再除以指数之和：</p><div class="mathpad">[e², e¹, e⁰] / (e²+e¹+e⁰)<br>≈ <strong>[0.665, 0.245, 0.090]</strong></div><div class="weight-bars"><div><span>tutelae</span><i style="width:66.5%"></i><em>66.5%</em></div><div><span>salute</span><i style="width:24.5%"></i><em>24.5%</em></div><div><span>et</span><i style="width:9%"></i><em>9.0%</em></div></div><p>三项权重都非负、合计约为 100%。<strong>Softmax 是在所有候选位置之间分配注意力权重</strong>，不是判定历史事实正确的概率。</p></div>
-<div class="qkv-stage" data-qkv-panel="3" hidden><b>第三步：拿权重去汇总 V</b><p>为方便算数，设三个位置各自的 Value 是二维向量：</p><p><code>V(tutelae)=[1,0]</code>，<code>V(salute)=[0,1]</code>，<code>V(et)=[1,1]</code>。</p><div class="mathpad">0.665×[1,0] + 0.245×[0,1] + 0.090×[1,1]<br>≈ <strong>[0.755, 0.335]</strong></div><p>第一维是 <code>0.665+0.090=0.755</code>；第二维是 <code>0.245+0.090=0.335</code>。<strong>这就是加权求和的实际含义</strong>：把多个位置传来的特征组合起来。</p></div>
-<div class="qkv-stage" data-qkv-panel="4" hidden><b>第四步：输出并不等于最终补字答案</b><p>得到的 <code>[0.755,0.335]</code> 只是一份<strong>更新当前位置所需的上下文信息</strong>。真实 Transformer 还会经过多头合并、线性变换、残差连接、归一化和前馈网络；多层更新后，文字修复头才使用对应位置的表示预测候选字符。</p><p>所以不是「看见 <code>salute</code> → Attention 直接写出 <code>loci pro</code>」，而是「每个位置逐层交换特征 → 形成上下文表示 → 专门任务头进行预测」。</p></div>
-<p class="micro">注意：这里只模拟一个位置、一个注意力头、三个候选位置和二维 V。实际 Aeneas 会处理完整字符序列及多维表示，并按模型规则处理有效位置与掩码。</p></div>
-<details class="concept-check"><summary>理解检查：为什么分数 2 不能直接说是 200% 的注意力？</summary><p>因为 Q·K 产生的是尚未归一化的匹配分数。必须先进行缩放（实际公式含 <code>√dₖ</code>）与 Softmax，才能得到一组和为 1 的注意力权重；其中 2 变成约 0.665，而不是 2。</p></details>
-<h3>3.3 再看一个直觉上的「关注点改变」</h3>
-<p>下面的交互不做具体矩阵计算，而是让你观察同一段铭文面向不同任务时可能依赖的线索差别。它与上面的算术演示用途不同，不能把人为权重当成真实注意力热图。</p>
-<div class="demo-box"><h3>从军职称呼切换到祈福措辞</h3><p class="micro">教学模拟：点击后比较参考信息的权重变化。这些数值不是 Aeneas 实验结果，也不能推出某个注意力头只负责某种知识。</p>
-<div class="button-row"><button type="button" class="demo-button active" data-att="officer" aria-pressed="true">研究军职称呼</button><button type="button" class="demo-button" data-att="prayer" aria-pressed="false">研究祈福措辞</button></div>
-<div id="att-rows" class="align-rows"></div><div id="att-interpretation" class="demo-explainer" aria-live="polite"></div></div>
+<h3>字符 → ID：先给符号一个可查找的地址</h3>
+<p>机器不能对字母 s 直接做乘加。先建立字表，把每种字符对应到一个整数 ID。空格和缺损符号也可以进入字表。ID 像书架编号：17 号书架并不比 4 号“意思更大”。</p>
 
-<h3>3.4 为什么是 Multi-Head（多头注意力）？</h3>
-<p>刚才只算了一个头。实际模型会让<strong>多个头并行使用各自的 Q/K/V 参数</strong>，分别得到一份上下文信息，然后把这些结果合并，经线性变换输出。不同的头<strong>有能力</strong>捕捉不同关系，但不能说论文证明了「第 1 个头专门识别军官、第 2 个头专门识别神明」——那只是帮助理解的比喻。</p>
-<div class="layer-picture"><div>同一层输入 X</div><span>↓</span><div class="head-row"><div>Head 1<br><small>独立 Q/K/V</small></div><div>Head 2<br><small>独立 Q/K/V</small></div><div>…</div><div>Head 8<br><small>独立 Q/K/V</small></div></div><span>↓ 拼接 + 投影</span><div>该层 Attention 的输出</div></div>
-<h3>3.5 Attention 之后为什么还有前馈网络、残差和归一化？</h3>
-<p>只会做 Attention 还不是完整的 Transformer 层。你可以把每一层记成两个动作：<strong>先让不同字符位置交换信息，再让每个位置独立加工收到的信息</strong>。</p>
-<table class="teach-table"><thead><tr><th>模块</th><th>它在干什么</th><th>为什么需要</th></tr></thead><tbody>
-<tr><td>Multi-Head Attention</td><td>让当前字符按权重吸收其他字符的信息</td><td>建立远近位置之间的联系</td></tr>
-<tr><td>Feed-Forward Network（FFN）</td><td>对每个位置的特征进行非线性变换</td><td>不只是平均信息，还能学习更复杂的组合</td></tr>
-<tr><td>Residual / Add（残差）</td><td>把模块输入与输出相加</td><td>保留原有信息，帮助深层网络训练</td></tr>
-<tr><td>Layer Normalization（层归一化）</td><td>调整每个位置内部特征的数值尺度</td><td>让不同层的数值与训练更稳定</td></tr>
-</tbody></table>
-<p><strong>一层只完成一次特征更新，不会自动完成历史解释。</strong>Aeneas 的主干重复堆叠 16 层，每层包含 8 个注意力头。前面的层输出成为后面层的输入，字符表示因而可以逐层融合更多上下文线索。层数增加不等于一层只看邻近字、下一层才看更远字——Self-Attention 在一层内已经有能力联系相距较远的位置。</p>
-<h3>3.6 位置编码 RoPE 与「decoder」的两个易错点</h3>
-<p>如果忽略位置，模型就难以区分词序变化。Aeneas 使用 <strong>RoPE（旋转位置编码）</strong>：位置关系参与注意力的 Q/K 匹配计算。它不是简单地给每个字符贴一个固定的「第几号」标签，更不是对整篇文章做旋转。现在只需知道：<strong>除了字符是什么，模型还要能够利用字符处于什么相对位置。</strong></p>
-<p>论文把这一主干称为 <em>T5 风格的 decoder</em>，但<strong>不能直接等同于 GPT 式「只能看左边」的单向续写</strong>。Aeneas 的文字修复需要利用缺口两边的转录文本；这里的实现允许双侧上下文参与匹配，具体前向结构以论文与公开代码为准。</p>
-<details class="concept-check"><summary>理解检查：Q、K、V 计算完，就得到「公元 211 年」了吗？</summary><p>没有。Attention 产生的是上下文特征。年代预测需要共享主干的后续表示，再经过专门的年代任务头输出年代区间的概率分布。文字修复、地域判断也是类似的分支，不能把注意力权重直接当成任务答案。</p></details>
-<details><summary>选学：把刚才的步骤还原为数学公式</summary><div class="mathpad">Attention(Q,K,V) = softmax(QK<sup>T</sup>/√d<sub>k</sub>)V</div><p>其中 <code>QKᵀ</code> 为一批查询位置和候选位置计算匹配分数；除以 <code>√dₖ</code> 用于控制点积分数的量级；<code>softmax</code> 让每个查询位置对所有可见位置形成总和为 1 的权重；最后乘以 V 完成加权汇总。我们刚才的 [2,1,0] 已是<strong>缩放后的示例分数</strong>，所以没有重复除以根号。</p></details>
-<button class="mark-button" type="button" data-mark="2" aria-pressed="false">□ 已掌握：能自己走通 Q/K/V → 分数 → Softmax → 加权 V → 层输出</button>
-</section>
-<section class="chapter" id="sec-04" data-section="3">
-<div class="chapter-number">CHAPTER 04 / 从一串字符到铭文向量</div>
-<h2>Transformer 输出的到底是什么？</h2>
-<p>刚才一直聚焦在缺口 <code>#</code>，但实际上<strong>每个字符位置都会获得一个新的上下文表示</strong>。例如模型处理 <code>senatus</code> 时，处理的是七个字符位置的整组向量，而不是只输出一个「Senatus 的意思」。</p>
-<h3>4.1 用矩阵尺寸看清发生了什么</h3>
-<p>假设这段教学示例有 <strong>7 个字符</strong>，每个字符先查表获得一个向量。于是把这些向量逐行排列，就得到一个矩阵：<strong>行代表字符位置，列代表学习得到的特征维度</strong>。这与你之前学习过的 RGB 图像矩阵的思想相通，但数值含义不同。</p>
-<div class="layer-picture"><div>7 个字符：s · e · n · a · t · u · s</div><span>↓ 字符 Embedding</span><div>每个位置一个向量 → 7 行 × 输入特征维数</div><span>↓ 投影与 16 层上下文处理</span><div>仍有 7 个位置 → 每个位置一个上下文向量</div><span>↓ 汇聚</span><div>整块铭文的检索表示 → 1 个向量</div></div>
-<p>论文 Methods 报告的模型字符 Embedding 维度为 <strong>384</strong>，主干内部每位置隐藏表示维度为 <strong>1536</strong>。二者不是同一个概念：前者是字符输入表征，后者是主干学习上下文时使用的特征宽度。真实输入还涉及特殊位置和长度限制，所以图里的「7 行」只是简化示意。</p>
-<h3>4.2 三种向量千万不要混成一种</h3>
-<table class="teach-table"><thead><tr><th>名称</th><th>在哪一步出现</th><th>用来干什么</th></tr></thead><tbody>
-<tr><td>字符初始 Embedding</td><td>字符编号查表后</td><td>把离散字符变成连续数字</td></tr>
-<tr><td>逐位置上下文表示 <code>hᵢ</code></td><td>经过 Transformer 之后</td><td>支持字符修复以及地域、年代等任务头</td></tr>
-<tr><td>铭文级检索向量 <code>z</code></td><td>将有效位置的主干表示聚合之后</td><td>和其他真实铭文的向量计算相似度</td></tr>
-</tbody></table>
-<p>比如 <code>h₅</code> 是第 5 个字符位置的内部表示，不等于「第 5 个历史概念」。向量 <code>z</code> 也不是输出的「省份编号 + 年份 + 补字答案」拼接而成。</p>
-<h3>4.3 一个模型，为什么能得到不同类型的输出？</h3>
-<p>因为<strong>共享的 Transformer 主干</strong>可以接多个「任务头（head）」。任务头像不同的评分器：读取共享特征，再负责输出属于自己的结果。例如，修复头预测缺失字符；年代头输出各年代区间的概率；地域头输出地域类别概率。</p>
-<div class="task-panel"><div class="task-body">文字输入 → Transformer 逐位置表示</div><div class="task-branches"><div><b>文字修复头</b><small>补什么字符？</small></div><div><b>年代头</b><small>属于哪个年代？</small></div><div><b>地域头</b><small>来自哪个地区？</small></div><div><b>检索路径</b><small>聚合后寻找平行铭文</small></div></div><p class="micro" style="text-align:center">此图是教学简化。真实 Fig. 2 还有未知长度修复的辅助判断；铭文照片经 ResNet-8 只接入地域分支，不进入字符修复、断代或检索向量。</p></div>
-<p>请特别注意：<strong>「修复 → 年代 → 地域 → 检索」并不是四个串行步骤。</strong>主干表示是共同起点，各任务头和检索路径有各自的用途。检索结果最终交给历史学家，不会在 Fig. 2 中反向输入主干、触发另一次文字生成。</p>
-<h3>4.4 为什么可以汇成整段文字的向量？</h3>
-<p>因为经过 Self-Attention 之后，各字符位置的表示已经不只包含孤立字符本身的信息，而可以包含整段文本的相关线索。作者利用这些表示构建统一的铭文检索向量，再与 LED 数据库中的候选向量计算余弦相似度。</p>
-<p>原论文 Methods 给出了检索表示的聚合描述；已有报告指出它与公开代码中的整体均值实现并非逐项一致。<strong>现在先把「逐位置上下文表示 → 聚合 → 铭文检索向量」这条逻辑讲对</strong>，不把教学图冒充为已复现的精确公式。</p>
-<div class="figure-link"><strong>对照原论文：</strong><a href="https://www.nature.com/articles/s41586-025-09292-5/figures/2" target="_blank" rel="noopener noreferrer">Nature Fig. 2 — Aeneas 架构</a>。自己指出文字输入、Torso decoder、三个主要任务头、图像进入地域头的位置，以及底部独立的 Contextual parallels 检索出口。</div>
-<details class="concept-check"><summary>理解检查：检索向量是把模型预测出来的「214 年 + Germania superior」拼成向量吗？</summary><p>不是。检索向量直接从 Transformer 主干学到的中间特征构造，训练中的地域、年代等任务会影响这些特征，但预测出的离散标签没有直接拼回检索输入。</p></details>
-<button class="mark-button" type="button" data-mark="3" aria-pressed="false">□ 已掌握：能区分输入 Embedding、逐字符上下文表示和铭文检索向量</button>
-</section>
-<section class="chapter" id="sec-05" data-section="4">
-<div class="chapter-number">CHAPTER 05 / 为什么有「历史信息」</div>
-<h2>多任务学习到底怎样改变模型？</h2>
-<p>到这里还有一个关键疑问：Transformer 只是在做特征计算，<strong>它怎么知道哪些文字线索与历史年代、地区有关？</strong>答案不在 Attention 公式里，而在<strong>训练（Training）</strong>。</p>
-<h3>5.1 先分清两件不同的事：前向计算与训练</h3>
-<div class="card-grid">
-<div class="concept"><b>前向计算（Forward）</b><p>已经有一套参数：字符进模型 → 得到上下文表示 → 任务头输出预测。它描述的是「模型这次怎么算」。</p></div>
-<div class="concept"><b>训练（Training）</b><p>先前向预测，再与已知参考答案比较产生损失（Loss），通过反向传播更新参数。它描述的是「模型如何逐渐学会这样算」。</p></div></div>
-<p>例如，训练集中一块铭文具有可用的地域与年代标注，训练过程还可以对转录文字人工遮挡，要求模型恢复被遮住的字符。三类任务共享同一个 Transformer 主干，因此它们的误差信号可以共同影响主干参数。</p>
-<div class="layer-picture"><div>一段训练铭文 + 可用的年代/地域标注</div><span>↓ 前向计算</span><div>字符修复预测 · 年代预测 · 地域预测</div><span>↓ 与训练目标比较</span><div>得到各任务 Loss，合成训练目标</div><span>↓ 反向传播（Backward）</span><div>更新任务头参数，也更新共享 Transformer 的参数</div><span>↓ 多次训练</span><div>共享表示逐渐学会对这些任务有用的特征</div></div>
-<p>未知长度修复还有一个辅助任务：学习判断缺口是否需要继续扩展，所以论文联合训练目标不仅包括字符修复、地域、年代，也包括长度相关的损失。这里不需要记住损失函数的每一个系数；<strong>要理解的是误差信号能够回传到共享主干</strong>。</p>
-<h3>5.2 为什么年代和地域监督会帮助检索？</h3>
-<p>设想两条拉丁铭文使用不同词语，但在特定历史时期采用相似的书写方式或奉献传统。单纯字面匹配未必把它们放在一起；如果训练一直要求模型区分年代、地域，并恢复符合上下文的文字，它就<strong>有可能</strong>在内部表示中保留某些有助于这些任务的共同线索。</p>
-<p>于是，拿这种表示去检索其他铭文时，模型就不只是依据共同字词计算相似性。论文把它称为具有历史信息的 Embedding。注意因果顺序：</p>
-<div class="lesson-example"><span class="example-label">训练阶段</span><p><strong>任务监督 → 损失与反向传播 → 更新共享参数 → 表示发生变化</strong></p><span class="example-label">使用阶段</span><p><strong>新铭文 → 已训练好的主干 → 聚合为向量 → 相似度排序 → 学者考证</strong></p></div>
-<p>这里没有直接给每对「历史相关铭文」都标一个配对答案。作者正是利用修复、地域和年代等<strong>代理任务（proxy tasks）</strong>，来帮助模型学出更适合铭文学的检索空间。</p>
-<h3>5.3 为什么不是「模型记住了历史事实」？</h3>
-<p>需要分清三个层次：<strong>训练任务可能塑造表示</strong>，不等于「某一维就是公元 211 年」；<strong>检索到向量相似的铭文</strong>，不等于「历史关系已经被证明」；<strong>合理的技术动机</strong>，也不等于「与所有现成语义检索模型比较过且全面胜出」。</p>
-<div class="note"><div class="note-title">把模型能力说准，比夸大创新更重要</div>论文 Table 1 通过历史学者使用检索结果的实验支持了辅助研究的价值；Table 2 则对比了 Ithaca 等方法在铭文学任务上的表现。这些实验证明的范围，与「Aeneas 是所有通用 Embedding 模型中最强的历史检索器」并不相同。</div>
-<h3>5.4 用一句话真正串联第二讲</h3>
-<p class="quote">字符 Embedding 让文字进入计算空间；Transformer 通过注意力与逐层变换形成上下文表示；修复、年代和地域任务的训练误差塑造共享表示；聚合得到的铭文向量才能用来检索历史参照材料。</p>
-<details class="concept-check"><summary>理解检查：部署后的 Aeneas 每检索一次，都要再反向传播训练一遍吗？</summary><p>不需要。通常使用的是已经训练好的参数：输入铭文 → 前向计算 → 得到检索向量和相关预测。只有专门训练或微调模型时，才会计算训练损失并反向更新参数。检索得分本身并不会自动使模型继续学习。</p></details>
-<button class="mark-button" type="button" data-mark="4" aria-pressed="false">□ 已掌握：能区分前向推理、训练反传和训练后的相似检索</button>
-</section>
-<section class="chapter" id="sec-06" data-section="5"><div class="chapter-number">CHAPTER 06 / 向量比较与总结</div><h2>余弦相似度：为什么向量接近就能检索候选？</h2>
-<p>当模型给每块铭文生成一个整体向量后，检索就可以变成数学计算：对查询铭文向量 <code>q</code> 与数据库铭文向量 <code>d</code> 计算<strong>余弦相似度</strong>，数值越高，在这个学得空间中方向越接近。</p>
-<div class="mathpad">cos(q,d) = (q · d) / (‖q‖ ‖d‖)</div>
-<p>例如用二维向量做教学演示：查询 <code>q=[1,0]</code>；候选 <code>A=[0.8,0.6]</code> 与 <code>B=[0.2,0.98]</code>。A 更靠近横轴，因此与 q 的夹角更小，余弦相似度也更高。真实 Aeneas 在高维空间中做同样类型的计算，<strong>但向量维度不对应我们画的二维坐标轴，也不能直接等同于历史正确率</strong>。</p>
-<div class="demo-box"><h3>互动：改变候选向量方向，观察相似度</h3><p class="micro">只展示二维向量的余弦几何意义，不使用 Aeneas 实际输出。查询向量固定为 q=[1,0]。</p>
-<svg id="vector-scene" viewBox="0 0 540 310" role="img" aria-label="二维向量与余弦相似度交互示意"><line x1="28" y1="250" x2="505" y2="250" stroke="#9ebcb1" stroke-width="1.8"/><line x1="265" y1="290" x2="265" y2="20" stroke="#9ebcb1" stroke-width="1.8"/><text x="510" y="254" font-size="12" fill="#718c80">x</text><text x="271" y="20" font-size="12" fill="#718c80">y</text><line x1="265" y1="250" x2="457" y2="250" stroke="#c37e44" stroke-width="4" stroke-linecap="round"/><text x="453" y="236" font-size="13" font-weight="bold" fill="#a9632d">q</text><line id="candidate-vector" x1="265" y1="250" x2="383" y2="120" stroke="#137c6c" stroke-width="4" stroke-linecap="round"/><text id="candidate-label" x="389" y="117" font-size="14" font-weight="bold" fill="#137c6c">d</text><circle cx="265" cy="250" r="4" fill="#35574e"/></svg>
-<div class="slider-row"><label for="vec-angle">夹角：<strong id="angle-value">45°</strong></label><input type="range" id="vec-angle" min="0" max="180" step="5" value="45"/><span class="big-number" id="cos-value">0.707</span></div><div class="demo-explainer" id="vector-explain">夹角越小，相似度越高。注意：相似度描述的是向量接近，而非历史关系已经被证明。</div></div>
-<p><strong>把第二讲连起来：</strong>字符被编号 → 字符 Embedding → Transformer 用注意力融合上下文 → 多个任务共同训练共享主干 → 聚合形成铭文向量 → 用余弦相似度检索真实参照铭文 → 交给历史学家判断。</p>
-<div class="note"><div class="note-title">带着三个辨析题结束本讲</div>（1）字符向量与铭文向量是同一回事吗？（2）为什么年代预测能影响检索表示，即使检索时没有把预测年份直接拼入向量？（3）两个向量相似，就能证明两个祭坛存在历史传承关系吗？</div>
-<button class="mark-button" type="button" data-mark="5" aria-pressed="false">□ 已掌握：能独立复述从字符到历史检索的完整数据流</button></section>
-<section class="chapter" id="test" style="margin-bottom:20px"><div class="chapter-number">RECALL QUIZ / 学完即练</div><h2>三道理解测验</h2><p>本讲不考公式记忆，重点检查你是否理解“输入表示 → 主干学习 → 历史检索”之间的关系。</p>
-<div class="quiz-card" data-answer="b" role="group" aria-labelledby="quiz-q1"><div class="quiz-title" id="quiz-q1">01. Aeneas 中字符的初始 Embedding 和整块铭文的检索 Embedding 有什么区别？</div><label><input type="radio" name="q1" value="a"/> 它们都直接代表某一确定历史事件</label><label><input type="radio" name="q1" value="b"/> 前者是字符的初始数字表示；后者来自共享主干表示的聚合，用于比较整段铭文</label><label><input type="radio" name="q1" value="c"/> 它们维度一定相同且无需经过训练</label><div class="feedback" aria-live="polite"></div></div>
-<div class="quiz-card" data-answer="c" role="group" aria-labelledby="quiz-q2"><div class="quiz-title" id="quiz-q2">02. 为什么年代、地域等预测任务能帮助历史检索？</div><label><input type="radio" name="q2" value="a"/> 因为检索前会把预测的年份直接写入每块铭文原文</label><label><input type="radio" name="q2" value="b"/> 因为作者手工标好了所有平行铭文配对</label><label><input type="radio" name="q2" value="c"/> 因为这些任务通过训练梯度影响共享主干，让表示学习与历史语境有关的区分性特征</label><div class="feedback" aria-live="polite"></div></div>
-<div class="quiz-card" data-answer="a" role="group" aria-labelledby="quiz-q3"><div class="quiz-title" id="quiz-q3">03. 两块铭文的历史向量余弦相似度很高，能推出什么？</div><label><input type="radio" name="q3" value="a"/> 它们在模型学得的特征空间中较接近，可能值得进一步历史比较</label><label><input type="radio" name="q3" value="b"/> 它们的真实历史因果关系已经被模型证明</label><label><input type="radio" name="q3" value="c"/> 它们必然来自同一年、同一省份</label><div class="feedback" aria-live="polite"></div></div>
-<button class="demo-button" type="button" id="grade" style="background:#126d5e;color:white;padding:11px 20px">检查答案</button><p class="micro" id="quiz-summary" aria-live="polite"></p>
-</section>
+<p><strong>为什么用字符级？</strong>铭文常有缩写、拼写变体、残缺和未知词。若先切成词，一个词坏掉几个字母就可能难以识别；字符级保留缺口位置，便于逐字修复。代价是序列更长、需要模型自己组合出词句规律。论文采用字符级，下面这段理由是对其任务适配性的技术解释，并非字符级优于一切分词方案的消融结论。</p>
+<figure class="figure"><img src="../assets/diagrams/characters.svg" alt="senatus 字符经教学 ID 查表为向量矩阵" loading="lazy" data-zoom><figcaption><span class="caption-label">原创教学图 · </span>读图顺序：文字 → 地址 → 查表结果。重复的 s 使用相同 ID、相同初始向量。编号和二维向量由本课自设，真实字表不使用这组编号。</figcaption></figure>
+<h3>Embedding：一本会在训练中调整的“数字词典”</h3>
+<p><strong>向量</strong>就是一排数字，如 <code>[1,0]</code>。Embedding 表的每一行存一个字符的向量；取出 s 那一行，才有了可以计算的输入。它是模型参数的一部分，训练会调整这些数值，并非人工给 s 写上“元老院”标签。</p>
 
-<section class="chapter" style="background:#f7faf6"><div class="chapter-number">NEXT / 学习串联</div><h2>下一讲预告：把 Fig. 2 从左到右讲明白</h2><p>你现在已经知道为什么要产生字符向量、Transformer 如何形成上下文表示，以及多任务监督为什么可能带来历史信息。第三讲就可以从真实 Fig. 2 出发，拆解 <strong>文字修复、未知长度判断、年代、地域、图像分支与检索出口</strong>，并明确训练和推理时各任务如何分工。</p><div class="course-links"><a href="01.html">← 回顾第一讲</a><a href="../index.html">查看全部学习路线</a><a href="https://www.nature.com/articles/s41586-025-09292-5/figures/2" target="_blank" rel="noopener noreferrer">打开官方 Fig. 2</a></div></section>
-<section class="chapter"><div class="chapter-number">SOURCES / 原文依据</div><h2>本讲引用与边界</h2><p>论文：Assael et al., <em>Contextualizing ancient texts with generative neural networks</em>, <em>Nature</em> (2025), DOI: <a href="https://doi.org/10.1038/s41586-025-09292-5">10.1038/s41586-025-09292-5</a>。本讲主要依据正文第 2–3 页的架构说明、Fig. 2，以及 Methods 中 <em>Aeneas’ architecture</em>、<em>Training Aeneas</em> 与 <em>Aeneas’ contextualization mechanism</em> 小节。</p><p class="micro">交互演示使用自设编号、虚构注意力权重及二维向量，明确不代表真实训练后的 Aeneas 数据；原论文图请使用上方 Nature 官方原图链接查看。课程依据论文原文、图注与公开资料整理，不把教学模拟当作模型输出。</p></section>
-<nav class="lesson-nav"><a href="01.html">← 第一讲 · 历史语境</a><a href="../index.html" style="text-align:right">返回课程目录 →</a></nav>
-<footer class="footer">Aeneas 论文精读 · 第二讲 · 独立学习站 · 本地阅读记录不跨设备同步 <span style="margin:0 6px">·</span> <button type="button" id="clear-progress">清除本讲阅读记录</button></footer></main>
-<aside class="rail" aria-label="学习提示"><div class="rail-card"><div class="minor">THIS LESSON</div><b>本讲目标</b><p>不要背模块名。能把“字符 → 向量 → 注意力 → 历史检索”自己讲一遍。</p></div><div class="rail-card"><div class="minor">PAPER FIGURE</div><a class="source-link" href="https://www.nature.com/articles/s41586-025-09292-5/figures/2" target="_blank" rel="noopener noreferrer">Fig. 2 原始架构图</a><a class="source-link" href="https://www.nature.com/articles/s41586-025-09292-5" target="_blank" rel="noopener noreferrer">论文与 Methods</a></div><div class="rail-card"><div class="minor">DON'T CONFUSE</div><p>字符向量 ≠ 语义标签</p><p>注意力示意 ≠ 真实权重</p><p>相似检索 ≠ 历史证明</p></div></aside></div>
-<script>(function(){'use strict';
-const key='aeneas-paper-study/lesson-02/v1'; const N=6;let state;
-try{state=JSON.parse(localStorage.getItem(key)||'{}')}catch(_){state={}};
-if(!Array.isArray(state.sections)||state.sections.length!==N)state.sections=Array(N).fill(false);
-function save(){try{localStorage.setItem(key,JSON.stringify(state))}catch(_){}}
-function renderProgress(){let n=state.sections.filter(Boolean).length;const mini=document.getElementById('mini-progress');if(mini)mini.textContent=n+' / '+N+' 小节';for(const e of ['reading-progress','side-bar']){const x=document.getElementById(e);if(x)x.style.width=(100*n/N)+'%'}const k=document.getElementById('side-percent');if(k)k.textContent=Math.round(100*n/N)+'%';document.querySelectorAll('[data-mark]').forEach(x=>{const yes=!!state.sections[+x.dataset.mark];x.setAttribute('aria-pressed',String(yes));x.textContent=(yes?'✓ ':'□ ')+x.textContent.replace(/^[✓□]\s*/,'')});}
-for(const b of document.querySelectorAll('[data-mark]'))b.addEventListener('click',()=>{const i=+b.dataset.mark;state.sections[i]=!state.sections[i];save();renderProgress()});renderProgress();
-document.getElementById('clear-progress').addEventListener('click',()=>{if(confirm('清除第二讲的学习进度和测验记录？')){state={sections:Array(N).fill(false)};save();renderProgress();document.querySelectorAll('input[type="radio"]').forEach(x=>x.checked=false);document.querySelectorAll('.feedback').forEach(x=>x.textContent='');document.getElementById('quiz-summary').textContent='';}});
-document.getElementById('print-btn').addEventListener('click',()=>window.print());
-const chars=['s','e','n','a','t','u','s']; const ids=[17,4,11,1,18,20,17];const vals=['[0.2, -0.3, 0.7, …]','[-0.5, 0.1, 0.8, …]','[0.4, 0.2, -0.1, …]','[0.1, 0.9, -0.2, …]','[0.3, -0.6, 0.2, …]','[0.7, 0.2, 0.4, …]','[0.2, -0.3, 0.7, …]'];
-const toks=document.getElementById('char-tokens');chars.forEach((c,i)=>{let b=document.createElement('button');b.className='demo-button';b.textContent=c;b.setAttribute('aria-label','查看第'+(i+1)+'个字符 '+c);b.addEventListener('click',()=>{[...toks.children].forEach((x,j)=>x.classList.toggle('active',j===i));document.getElementById('char-result').innerHTML='第 '+(i+1)+' 个字符 <strong>'+c+'</strong> → 教学示例编号 <code>'+ids[i]+'</code> → 教学示例向量 <code>'+vals[i]+'</code>。<br>同一字符可有相同的初始表示，但经过 Transformer 后，其表示会受上下文影响。';});toks.appendChild(b)});toks.firstChild.click();
-const ctx=[...'tutelae # salute']; const ctxWrap=document.getElementById('context-tokens');
-function drawContext(mode){ctxWrap.innerHTML='';ctx.forEach((c,i)=>{let e=document.createElement('span');e.textContent=c===' '?'·':c;if(i===8)e.className='blank';else if(mode==='both'||(mode==='right'&&i>8)||(mode==='left'&&i<8))e.className='context';ctxWrap.appendChild(e)});const explain={both:'这段真实祭坛片段的缺口两侧分别是 tutelae 和 salute。Transformer 可以综合两侧字符形成对缺口的上下文表示。',left:'只关注左侧 tutelae 可以知道前面的表达，但看不到右侧 salute 提供的线索。',right:'只关注右侧 salute 可以知道后续祈福语境，却失去左侧 tutelae 的约束。'};document.getElementById('context-explain').textContent=explain[mode];document.querySelectorAll('[data-context]').forEach(b=>{let yes=b.dataset.context===mode;b.classList.toggle('active',yes);b.setAttribute('aria-pressed',String(yes))})}
-document.querySelectorAll('[data-context]').forEach(x=>x.addEventListener('click',()=>drawContext(x.dataset.context)));drawContext('both');
-const attentions={officer:{items:[['军职称呼',.57],['神明称谓',.09],['祭坛地点',.20],['祈福措辞',.14]],text:'若当前分析军职称呼，称谓本身和相关地点可被赋予更高权重。实际模型并没有被证明存在这样一只“军职专属注意力头”。'},prayer:{items:[['军职称呼',.10],['神明称谓',.31],['祭坛地点',.08],['祈福措辞',.51]],text:'若关注奉献祈福的表达，神明称谓与祈福措辞可能更重要。这组数值是教学示意，不是模型可解释性实验结果。'}};
-function drawAttention(k){let s=attentions[k];document.getElementById('att-rows').innerHTML=s.items.map(([name,w])=>'<div class="grid-entry"><strong>'+name+' · '+Math.round(w*100)+'%</strong><div style="height:8px;background:#e5eee8;border-radius:8px;overflow:hidden;margin-top:9px"><div style="height:100%;background:#228b77;width:'+(100*w)+'%"></div></div></div>').join('');document.getElementById('att-interpretation').textContent=s.text;document.querySelectorAll('[data-att]').forEach(b=>{let yes=b.dataset.att===k;b.classList.toggle('active',yes);b.setAttribute('aria-pressed',String(yes))})}
-document.querySelectorAll('[data-att]').forEach(x=>x.addEventListener('click',()=>drawAttention(x.dataset.att)));drawAttention('officer');
-const slider=document.getElementById('vec-angle');function drawAngle(){let a=+slider.value,rad=a*Math.PI/180,c=Math.cos(rad),len=185,ox=265,oy=250,x=ox+len*Math.cos(rad),y=oy-len*Math.sin(rad);document.getElementById('candidate-vector').setAttribute('x2',x);document.getElementById('candidate-vector').setAttribute('y2',y);document.getElementById('candidate-label').setAttribute('x',x+9);document.getElementById('candidate-label').setAttribute('y',y-9);document.getElementById('angle-value').textContent=a+'°';document.getElementById('cos-value').textContent=c.toFixed(3);document.getElementById('vector-explain').textContent=(a<45?'方向非常接近：余弦相似度较高。':a<=90?'夹角逐渐增大：相似度变小。':'夹角超过 90°：余弦相似度为负。')+' 这只能说明模型向量的几何接近程度，不能推出已证实的历史联系。'}slider.addEventListener('input',drawAngle);drawAngle();
-document.getElementById('grade').addEventListener('click',()=>{let correct=0;const texts=['字符初始表示用于输入建模；整块铭文检索向量来自主干的聚合表示，两者阶段和用途不同。','联合任务的误差会通过训练过程更新共享主干，从而影响后续检索所用的表示；不是预先将预测结果拼进查询。','余弦相似度反映模型表示空间中的接近程度，只能作为参照候选，历史联系仍需考证。'];[...document.querySelectorAll('.quiz-card')].forEach((box,i)=>{const sel=box.querySelector('input:checked');let ok=!!sel&&sel.value===box.dataset.answer;if(ok)correct++;box.querySelector('.feedback').textContent=(!sel?'尚未选择。':ok?'正确。':'此题需要重新理解。')+texts[i]});document.getElementById('quiz-summary').textContent='本次得分：'+correct+' / 3。测验只用于理解回顾，不作为课程成绩。';state.quiz=correct;save()});
-const sections=[...document.querySelectorAll('.chapter[data-section]')];const toc=[...document.querySelectorAll('#toc a')];if('IntersectionObserver' in window){const o=new IntersectionObserver(entries=>{entries.filter(x=>x.isIntersecting).forEach(e=>toc.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id)))},{rootMargin:'-20% 0px -66% 0px'});sections.forEach(x=>o.observe(x));}
-})();
-/* Self-contained QKV arithmetic stepper; does not change saved progress. */
-document.querySelectorAll('[data-qkv-step]').forEach(button=>{
- button.addEventListener('click',()=>{
-  const step=button.getAttribute('data-qkv-step');
-  document.querySelectorAll('[data-qkv-step]').forEach(b=>{const active=b===button;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
-  document.querySelectorAll('[data-qkv-panel]').forEach(panel=>{panel.hidden=panel.getAttribute('data-qkv-panel')!==step;});
- });
-});
-</script></body></html>
+<div class="lab">
+<h3>动手：点两个 s，看看初始表示是否相同</h3><div class="token-buttons" id="char-tokens" aria-label="选择 senatus 中的字符"></div><div id="char-result" class="lab-output" aria-live="polite"></div></div>
+
+<p>把每个位置的向量叠起来就得到矩阵 <code>X</code>：<strong>行数是字符位置数，列数是每个向量的维度</strong>。例如 7 个字符、每个 2 维，X 就是 7×2。这是后面所有维度标记的读法。真实配置的字符表示宽度为 384，不要求背诵，但要知道不是两个数。</p>
+
+<h3>相同的 s，为什么最后会不一样？</h3>
+<p>查表只知道“这是什么字符”，不知道“它在这句话里做什么”。如果直接用查表向量检索，相同字母到处相同，模型无法充分区分奉献、墓志或法律文本。Transformer 接过整段字符，<strong>根据上下文更新每个位置的表示</strong>。</p>
+<figure class="figure"><img src="../assets/diagrams/context.svg" alt="senatus 和 salute 的 s 初始相同，经过上下文计算后不同" loading="lazy" data-zoom><figcaption><span class="caption-label">原创教学图 · </span>上下文表示是每次输入后计算出来的；相同字符的初始参数相同，不代表最终表示相同。箭头表示运算，不是把词义写进字表。</figcaption></figure>
+<h3>位置关系：既要看到谁出现，也要知道它在哪里</h3>
+<p>只汇总一堆字符会丢失顺序，就像知道句子里有“老师”和“学生”，却分不清谁在问谁。Aeneas 使用 <strong>RoPE（旋转位置编码）</strong>：在比较字符时，按位置旋转后面要讲的 Q、K 向量，使比较结果能感知相对位置。这里记住作用即可；不必先推导三角函数。</p>
+<p class="footnote">本课下一节为手算清楚，直接给定投影输入并省略 RoPE、归一化、前缀和为对齐长度添加的空位；这是一台缩小的计算演示机，不是声称真实 Aeneas 只用三个二维字符。</p>
+<div class="talk"><strong>课堂讲法 · 可以直接复述</strong>Embedding 是把每个字符查成一排可学习的数字；Transformer 再结合顺序和上下文，算出这个字符在当前铭文中的表示。二者是输入表示与加工网络的关系。</div>
+<details class="question"><summary>可能追问：Transformer 与 Embedding 是同一个东西吗？</summary>
+<p>不是。Embedding 可指输入查表向量，也可泛指模型产生的表示；Transformer 是变换这些表示的网络。汇报时应明确是在说“字符初始向量”“上下文向量”还是“铭文检索向量”。</p></details>
+<button class="mark-button" type="button" data-mark="0" aria-pressed="false">□ 已掌握：能解释字符、ID、初始向量与上下文的区别</button></section>
+
+<section class="chapter" id="sec-02" data-section="1"><div class="chapter-number">02 / 核心计算</div>
+<h2>把一次 Self-Attention 算到底</h2>
+<p>现在只拿 <code>senatus</code> 的前三个字符 <code>s e n</code>，把它们当成一个三位置窗口。<strong>Self-Attention 要解决的是：更新当前位置时，应从哪些位置取多少信息？</strong>如果每个位置只看自己，就无法用缺口两侧的线索；如果把所有位置同等平均，又会把相关和无关信息混在一起。</p>
+
+<h3>Q、K、V：同一个输入，做三种不同用途的投影</h3>
+<p>可以把它想成找资料：Q 是“我现在想找什么”，K 是每份资料的“索引”，V 是匹配后实际读到的“内容”。这只是帮助记忆用途的比喻。它们实际都是向量，来自同一批输入乘上三个可学习矩阵：</p><div class="mathpad">Q = XWQ　　K = XWK　　V = XWV</div>
+
+<p>不用先补一门矩阵课：<code>[a,b] × [[u,v],[w,z]] = [au+bw, av+bz]</code>。就是把输入两项按不同配方相加，配方里的数字是参数。本例 X 为 3×2，三个 W 都为 2×2，因此 Q、K、V 都是 3×2。</p>
+<figure class="figure"><img src="../assets/diagrams/qkv.svg" alt="输入 X 通过三个不同参数矩阵产生 Q K V" loading="lazy" data-zoom><figcaption><span class="caption-label">原创教学图 · </span>三条分支输入相同，参数不同。Q、K 用来算匹配；V 用来提供汇总内容。完整层实际先归一化，真实 Q/K 还使用 RoPE。</figcaption></figure><div class="mathpad"><span class="step-meta">本例全部给定量；W 是训练好参数的教学替身</span><code class="matrix">X  = [[1,0], [0,1], [1,1]]   ← s、e、n 三行
+WQ = [[1,0], [0,1]]
+WK = [[1,0], [0,2]]
+WV = [[1,1], [0,2]]
+Q  = [[1,0], [0,1], [1,1]]
+K  = [[1,0], [0,2], [1,2]]
+V  = [[1,1], [0,2], [1,3]]</code></div>
+
+<p>例如 n 的输入是 <code>[1,1]</code>，乘 WV 得 <code>[1×1+1×0, 1×1+1×2]=[1,3]</code>。Q、K、V 不是三个外部数据库，也不是三段不同文字。</p>
+
+<h3>沿着 s 这一行，完成五步计算</h3>
+<p><strong>点积</strong>就是对应数字相乘再相加：<code>[a,b]·[c,d]=ac+bd</code>。这里用 q<sub>s</sub> 与每个 k 比，得到三个匹配分数。分数还不是概率，可能为负，也不要求加起来为 1。</p>
+
+<div class="lab" id="attention-lab">
+<h3>Attention 计算台 · 每次只解释一步</h3>
+<p class="micro">先保持 s 不动，按“下一步”走到加权汇总；再换 e、n，观察同一矩阵的不同行。</p><div class="controls" id="query-buttons" aria-label="选择 Attention 查询位置"><button type="button" data-query="0" aria-pressed="true">s（第 1 行）</button><button type="button" data-query="1" aria-pressed="false">e（第 2 行）</button><button type="button" data-query="2" aria-pressed="false">n（第 3 行）</button></div><div class="controls" id="attention-steps" aria-label="选择计算步骤"></div><div class="lab-output" id="attention-output" aria-live="polite"></div><div class="controls"><button id="att-prev" type="button">← 上一步</button><button id="att-next" type="button">下一步 →</button><button id="att-play" type="button">逐步播放</button></div><div id="attention-bars" aria-label="当前字符参考各位置的权重"></div>
+<p class="micro" id="attention-bar-note">权重在 Softmax 一步出现；此前先理解分数。</p></div>
+
+<p><strong>缩放为什么除以 √d<sub>k</sub>？</strong>向量很长时，点积的数值幅度容易变大，Softmax 就可能过早接近“只选一个”。用每头 Q/K 的维数 d<sub>k</sub> 的平方根缩放，有助于控制数值范围。本例 d<sub>k</sub>=2，除以 √2；真实每头为 32。它不是除以字符个数。</p>
+
+<p><strong>Softmax 做什么？</strong>对每个分数取指数，再除以这一行指数的总和：<code>αj=exp(sj)/Σexp(sk)</code>。你只需知道指数把数变成正数、突出较大值，再归一成总和为 1 的权重。本例 <code>exp(0.707)≈2.028</code>，所以权重约为 <code>[0.401,0.198,0.401]</code>。</p>
+
+<p><strong>最后究竟汇总谁？</strong>不是 K，而是 V：<code>0.401[1,1]+0.198[0,2]+0.401[1,3]≈[0.802,2.000]</code>。新的 s 表示收到了其他位置的信息。它不是原字符被替换成了某个词；实际修复还要经过后面的任务头。</p>
+<div class="mathpad">Attention(Q,K,V) = Softmax(QKᵀ / √d<sub>k</sub>) V<br><span class="step-meta">全部查询一起算：QKᵀ 为 3×3 → 每行 Softmax 为 3×3 → 乘 V(3×2) 得输出 3×2。</span></div>
+<div class="talk"><strong>课堂讲法 · 可以直接复述</strong>每个位置用 Q 和各位置的 K 算相关程度，缩放后用 Softmax 变成权重，再按这些权重汇总 V。Q/K 决定从哪里读，V 决定读进来什么。</div>
+<details class="question"><summary>可能追问：为什么不直接用 X 同时当 Q、K、V？</summary>
+<p>那也能构造一种简化注意力，但会把“怎样匹配”和“传递什么内容”绑在同一表示上。三个可学习投影给网络更大的表达自由。这是机制解释，不是本文单独验证了三个矩阵各自收益的结论。</p></details>
+<details class="question"><summary>可能追问：Attention 权重是不是模型给出的历史解释或正确率？</summary>
+<p>不是。权重是某层某头某次前向计算的混合系数。0.401 不是“这个字符有 40.1% 概率导致某历史事件”，也不能单凭高权重证明因果。论文案例还使用显著性图，它与这里的 Attention 权重并非同一对象。</p></details>
+<button class="mark-button" type="button" data-mark="1" aria-pressed="false">□ 已掌握：能手算 s 的分数、权重和新向量</button></section>
+
+<section class="chapter" id="sec-03" data-section="2"><div class="chapter-number">03 / 从部件到主干</div>
+<h2>把算过的 Attention 放回 Transformer</h2>
+<p>刚才是一只头的一次信息汇总。它的匹配配方只有一套，可能不够表达不同位置关系。<strong>多头注意力让同一输入同时经过几套独立投影</strong>；不是把字符分组后各看各的，也不是一个头算完再交给下一个。</p>
+<figure class="figure"><img src="../assets/diagrams/heads.svg" alt="两个独立注意力头并行计算后拼接和投影" loading="lazy" data-zoom><figcaption><span class="caption-label">原创教学图 · </span>箭头先分开、再汇合。教学两头各 2 维；真实 8 头各 32 维，拼接后经输出投影返回 384 维。</figcaption></figure>
+<div class="lab">
+<h3>从刚才的 s 接着算：切换单头 / 双头</h3><div class="controls"><button type="button" data-head="single" aria-pressed="true">看单头结果</button><button type="button" data-head="multi" aria-pressed="false">加入第二头并合并</button></div><div id="head-output" class="lab-output" aria-live="polite"></div></div>
+
+<p><strong>多头为什么可能有用？</strong>不同配方可以保留不同的比较结果，输出投影再把它们重新组合。但“某一头专管军职、某一头专管宗教”只能是比喻，论文没有证明这样的固定分工；更多头也不保证一定更好。</p>
+
+<h3>Attention 之后，还差哪几件事？</h3>
+<p>先把三个必要部件补齐，再看整层。<strong>FFN（逐位置前馈网络）</strong>给每个位置做一次相同的非线性加工，像把汇总来的资料进一步整理；Attention 负责位置间交换，FFN 负责每个位置内部加工。</p>
+<p>一次线性变换只是按配方相加，多叠几次仍然可合成一个线性变换。中间加入非线性，网络才能表达更复杂的组合。Aeneas 的 FFN 中间宽度为 1536，随后回到 384；它<strong>没有把字符位置数变成 1536</strong>。</p>
+
+<p><strong>Residual（残差连接）</strong>把旧表示加回新信息：如果原来是 <code>[1,0]</code>、增量是 <code>[0.8,2]</code>，相加得 <code>[1.8,2]</code>。这样保留原信息，也给训练梯度一条直接通路。<strong>LayerNorm（层归一化）</strong>则调整一个位置内部向量的尺度，让下一步运算更稳定；它不是把整篇文章平均成一个数。T5 风格使用按均方根缩放的变体，此处只需掌握其稳定数值的作用。</p>
+<figure class="figure"><img src="../assets/diagrams/layer.svg" alt="Aeneas 官方实现所用 Pre-norm 层内部有 Attention 和 FFN 两个残差子层" loading="lazy" data-zoom><figcaption><span class="caption-label">原创教学图 · </span>先归一化再做 Attention，加回输入；再归一化做 FFN，加回中间结果。图省略 Dropout；依据官方 model.py 的 T5DecoderLayer，原 Fig. 2 用 Add and normalize 作概略框图；此处展开公开实现的 Pre-norm 次序，二者展示粒度与顺序表述有差异。</figcaption></figure><div class="mathpad">U = H + MHA(Norm(H))<br>H<sub>next</sub> = U + FFN(Norm(U))<br><span class="step-meta">H、U、Hnext 均为 N×d；MHA 内含各头的 Q/K/V 和输出投影。训练时还使用 Dropout。</span></div>
+
+<h3>为什么一层不够？16 层在重复什么？</h3>
+<p>第一层已能访问整段文字，不能说“必须堆 16 层才能看到远处字符”。多层的意义是<strong>上一层已经组合过的信息，可以成为下一层重新比较、加工的材料</strong>。就像先整理句内线索，再拿整理后的线索重新核对整段内容；但这是理解复合计算的比喻，不是逐层语义分析结果。</p>
+<figure class="figure"><img src="../assets/diagrams/depth.svg" alt="16 个 Transformer 层连续更新表示，最后形成上下文序列" loading="lazy" data-zoom><figcaption><span class="caption-label">原创教学图 · </span>每层有自己的参数，输入来自前一层，位置仍对齐；最终还有输出归一化。16 层是本文配置，不是论文证明的唯一最佳层数。</figcaption></figure><div class="paper-note"><span class="evidence">实现核对：</span>Methods 同段先写 Embedding 384、MLP 1536，后又将输出称为 1536 维，存在表述不一致。公开 <a href="https://github.com/google-deepmind/predictingthepast/blob/main/train/config_latin.py">config_latin.py</a> 配置为 emb_dim=384、mlp_dim=1536，<a href="https://github.com/google-deepmind/predictingthepast/blob/main/predictingthepast/models/model.py">model.py</a> 的 torso_output 也保持 emb_dim。本课计算图按公开实现区分隐藏宽度与 FFN 中间宽度；不把 1536 当检索维度定论。</div>
+<div class="talk"><strong>课堂讲法 · 可以直接复述</strong>一层包含“交换信息的多头注意力”和“逐位置加工的 FFN”，两处都有归一化和残差。16 层把这种加工反复复合，最后仍是每个字符位置对应一个上下文向量。</div>
+<details class="question"><summary>可能追问：Aeneas 的 decoder 和 GPT 有什么区别？</summary>
+<p><span class="evidence">原文事实：</span>作者称它为 T5 衍生的 transformer decoder。<span class="evidence">实现证据：</span>公开 T5DecoderLayer 的 mask 由有效位置构造，没有 GPT 那种阻挡右侧文字的因果三角遮罩，所以可结合缺口两侧。它也没有传统 encoder–decoder 的跨注意力输入。修复从高置信缺口迭代并支持未知长度搜索，不等于 GPT 标准的从左到右 next-token 生成。decoder 是作者对模块的命名，不能据此推断因果注意力。</p></details>
+<button class="mark-button" type="button" data-mark="2" aria-pressed="false">□ 已掌握：能说明多头、完整层、多层的不同作用</button></section>
+
+<section class="chapter" id="sec-04" data-section="3"><div class="chapter-number">04 / 原文对应</div>
+<h2>先读完整 Fig. 2，再定位每条数据流</h2>
+<p>现在才进入完整架构。<strong>主干（torso）</strong>就是大家共用的表示加工网络；<strong>任务头（head）</strong>是从这些表示产生特定答案的小网络。注意：这里的“任务头”与上一节并行计算的“注意力头”是两种不同概念。</p>
+
+<figure class="figure"><img src="../assets/paper/fig2.png" alt="Aeneas 论文完整 Fig. 2，转录文字和图像经主干与任务分支产生修复、年代、地域及检索输出" loading="lazy" data-zoom><figcaption><span class="caption-label">论文原图 Fig. 2 · </span>Assael et al., Nature 645, 141–147 (2025)，DOI <a href="https://doi.org/10.1038/s41586-025-09292-5">10.1038/s41586-025-09292-5</a>。凯旋门照片：T. Sommerschield（图注 T.S.）。完整原样转载，未裁切、未加标注，非商业教学；<a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>。<a href="https://www.nature.com/articles/s41586-025-09292-5/figures/2">官方图页</a>。</figcaption></figure>
+
+<p>先在原图认出左上输入、右侧 torso、中部任务头、左侧输出和底部检索。下面的定位按钮告诉你<strong>在原图哪里找、那条线传递什么</strong>；随后再用原创简化图核对。没有读懂一条线之前，先不背全图。</p>
+<div class="controls architecture-buttons" aria-label="从原图定位模块"><button type="button" data-module="input" aria-pressed="true">① 输入</button><button type="button" data-module="torso" aria-pressed="false">② 主干</button><button type="button" data-module="restoration" aria-pressed="false">③ 修复</button><button type="button" data-module="date" aria-pressed="false">④ 年代</button><button type="button" data-module="region" aria-pressed="false">⑤ 图像与地域</button><button type="button" data-module="retrieval" aria-pressed="false">⑥ 检索</button></div><div id="module-note" class="architecture-note" aria-live="polite"></div>
+<figure class="figure"><img src="../assets/diagrams/fig2-map.svg" alt="Aeneas 图文输入、文字主干、各任务头和独立检索出口的原创简化图" loading="lazy" data-zoom><figcaption><span class="caption-label">原创教学图 · </span>独立绘制的信息流，不是在原图上改线。注意只有图像→ResNet→地域这一条视觉路径；检索从文字主干输出分出，不经过预测年份或省份。</figcaption></figure>
+<h3>四个任务头分别输出什么？</h3>
+<table class="mini-table"><thead><tr><th>任务</th><th>读哪份表示</th><th>输出与作用</th></tr></thead><tbody><tr><td>字符修复</td><td>缺损位置 h<sub>t</sub></td><td>字符分布；已知缺多少字时补字。</td></tr><tr><td>未知长度判断</td><td># 所在位置的表示</td><td>判断一个还是多个字符仍缺失，帮助搜索决定保留或移除 #。</td></tr><tr><td>年代归属</td><td>前缀位置 h₁</td><td>800 BCE–800 CE 范围的 160 个十年区间分布，不是直接输出一个精确年份。</td></tr><tr><td>地域归属</td><td>前缀 h₁ + 可用图像特征</td><td>62 个罗马行省的分布。</td></tr></tbody></table>
+
+<p>前缀是加在文字前的专用位置，它也会参考整段上下文；训练要求这个位置服务年代和地域任务，因此可形成整段摘要。它并非一开始就“知道全句”。修复头则仍需每个缺口位置的信息，不能只用一个整句向量代替。</p>
+
+<h3>图像为什么只接地域？</h3>
+<p>照片先经过 <strong>ResNet-8</strong>，可以把它理解为从图像中提取形状、纹饰等可用线索的网络；本讲不需要拆它的卷积细节。提取出的向量与文字前缀表示合并，供地域头判断。</p>
+<p><span class="evidence">论文说明：</span>修复评测会人为遮住转录文字，照片可能仍保留那些字，接图像会泄漏答案；断代实验未观察到显著收益，所以没有使用图像。检索公式只取文字主干输出，而图像是在后面地域头才合入，因此检索也不直接读图。<strong>这不等于图像对所有断代研究都无用。</strong></p>
+<div class="talk"><strong>课堂讲法 · 可以直接复述</strong>先看共用的文字主干，再看四个任务出口。图像只在地域头融合；检索取的是文字主干表示，预测年份和地点并没有作为标签直接拼进检索向量。</div>
+<details class="question"><summary>可能追问：是不是先修复，再断代，再地域，最后才能检索？</summary>
+<p>不是固定的串行流水线。共享主干产生表示后，各头可以分支预测，检索也从主干聚合。修复搜索自身可能多次前向计算并更新候选文本，但这不把所有任务强制排成顺序。</p></details>
+<button class="mark-button" type="button" data-mark="3" aria-pressed="false">□ 已掌握：能对着 Fig. 2 指出每条输入与输出路径</button></section>
+
+<section class="chapter" id="sec-05" data-section="4"><div class="chapter-number">05 / 学习机制</div>
+<h2>Loss 如何让多个任务塑造同一个主干</h2>
+<p>到目前为止，我们是假设参数已经存在，在算“模型怎么用”。现在才问这些数从哪里来：<strong>训练是用已有参考答案调整参数，推理是用调整好的参数处理新输入。</strong></p>
+
+<h3>先把 Loss 和梯度讲成一件可检查的事</h3>
+<p><strong>Loss（损失）</strong>是用一个数衡量预测偏离训练目标的程度。例如人工遮住 <code>senatus</code> 的 e，让输入成为 <code>s?natus</code>；参考答案是 e。模型给正确字符 e 的概率只有 0.2，交叉熵损失 <code>−ln(0.2)≈1.609</code>；提高到 0.8 时损失约 0.223。只需理解：正确答案分到的概率越大，这项损失越低。</p>
+
+<p><strong>梯度</strong>告诉我们“参数往哪个方向小幅改动，会让损失下降”。反向传播就是沿刚才的运算链，把这个调整信号算回各个参数；不是倒着生成文字，也不是人工逐层指定意义。Embedding 表、Q/K/V 矩阵、FFN 和任务头都可能被更新。</p>
+
+<details class="question"><summary>想算一点：一次更新是什么样？（不要求推导微积分）</summary>
+<p>在没有标签平滑的单位置 Softmax + 交叉熵简化例子中，正确类原始分数的导数为 p−1。p=0.2 时是 −0.8；若直接把这个分数当可调量，用步长 0.1 更新：<code>新分数 = 旧分数 − 0.1×(−0.8) = 旧分数+0.08</code>。真实训练调整的是产生分数的参数，并使用 LAMB 优化器、标签平滑等；这个例子只解释“沿梯度减小 Loss”的方向。</p></details>
+
+<div class="lab">
+<h3>切换：训练多了哪两步？</h3><div class="controls"><button type="button" data-flow="train" aria-pressed="true">训练：有参考目标</button><button type="button" data-flow="infer" aria-pressed="false">推理：使用固定参数</button></div><div id="flow-output" aria-live="polite"></div></div>
+
+<h3>多任务：多个老师，共同修改一本表示“词典”</h3>
+<p>同一条训练铭文既可用人工遮挡教修复，又可用可用标注教地域和年代。每个任务头有自己的参数，但它们前面的主干是共享的。可以类比几个老师对同一份笔记提出修改意见：文字老师关心能否补字，年代与地域老师关心哪些线索能帮助归属。</p>
+<figure class="figure"><img src="../assets/diagrams/training.svg" alt="修复、年代、地域等损失汇合并更新共享主干" loading="lazy" data-zoom><figcaption><span class="caption-label">原创教学图 · </span>前向产生预测，损失对照目标；更新信号沿原计算图反传到共享参数。图示将字符修复与未知长度判断合列，实际总损失包含四项。</figcaption></figure><div class="mathpad">L = 3L<sub>restoration</sub> + L<sub>unknown</sub> + 2L<sub>region</sub> + 1.25L<sub>date</sub><br><span class="step-meta">上式为 Methods 的联合目标；系数用于平衡任务，并非各任务准确率或检索权重。</span></div>
+
+<table class="mini-table"><thead><tr><th>监督</th><th>误差信号怎样来</th></tr></thead><tbody><tr><td>修复</td><td>人工遮挡的字符有参考答案，用字符预测损失学习补字。</td></tr><tr><td>未知长度</td><td>判断 # 是否还含多个字符，用二元交叉熵学习继续扩展还是结束。</td></tr><tr><td>地域</td><td>可用的行省标签与预测分布比较，使用分类交叉熵。</td></tr><tr><td>年代</td><td>参考常是日期区间，用 KL 散度比较预测分布与目标分布；KL 可先理解为两份概率分布的不一致程度。</td></tr></tbody></table>
+
+<p>对共享参数 θ，来自各任务的梯度按同样系数相加。例如某参数收到两条加权后梯度 <code>+0.6</code> 和 <code>−0.2</code>，合起来是 <code>+0.4</code>，再由优化器决定更新。它们也可能互相冲突，所以<strong>多任务不是任务越多越好</strong>；最终收益需要实验。</p>
+
+<h3>为什么这样训练，检索可能更有历史信息？</h3>
+<p>能够区分年代、地域并恢复语句的表示，可能保留拼写、制度称谓、语言惯例等历史线索。之后用这份表示比较铭文，就不只比较字面重合。作者用这些铭文学任务作为<strong>代理监督</strong>，没有为所有“历史相关铭文对”逐一标注答案。</p>
+<p><span class="evidence">合理解释：</span>不同任务可能帮助共享表示兼顾语言与历史线索。<span class="evidence">证据边界：</span>人机实验支持检索结果有辅助价值，UMAP 提供表示空间的观察；它们不能单独量化“某一任务到底提高多少检索效果”。逐任务消融与更全面检索基线仍有待补足。</p>
+<div class="talk"><strong>课堂讲法 · 可以直接复述</strong>训练时，四项任务把误差传回共享参数，改变以后怎样编码铭文；推理时只做前向计算。新查询会产生新的上下文表示，但不会因此自动更新模型参数。</div>
+<details class="question"><summary>可能追问：为什么推理不需要每次重新训练？</summary>
+<p>训练已经把大量样本的规律压进固定参数。新输入改变的是前向计算的结果，不是这些参数本身。类似用学会的解题方法算新题；不必每做一题就重写整本教材。修复的多步搜索可能多次调用模型，仍不等于反向训练。</p></details>
+<button class="mark-button" type="button" data-mark="4" aria-pressed="false">□ 已掌握：能区分新表示、固定参数与训练更新</button></section>
+
+<section class="chapter" id="sec-06" data-section="5"><div class="chapter-number">06 / 铭文级检索</div>
+<h2>从一串上下文向量，到可供考证的真实材料</h2>
+<p>我们终于可以区分三个经常都叫 Embedding 的东西：字符查表向量、主干输出的上下文序列、以及整块铭文用于检索的单个向量。<strong>从“每个位置一行”到“每块铭文一行”，需要聚合。</strong></p>
+<figure class="figure"><img src="../assets/diagrams/representations.svg" alt="字符向量、上下文表示和铭文级检索向量的三个阶段" loading="lazy" data-zoom><figcaption><span class="caption-label">原创教学图 · </span>聚合公式按论文 Methods 原样表达：求和从 n=2 到 N，但分母是 N（含前缀的序列长度），不是默认改写成 N−1。</figcaption></figure>
+<h3>把论文的检索公式也算一次</h3><div class="mathpad">z = (h₁ + (1/N) Σ<sub>n=2…N</sub> h<sub>n</sub>) / 2</div>
+
+<p>h₁ 是服务年代、地域的前缀位置表示，后续位置参与文字修复。作者把它们融合成一条检索向量。<strong>没有把输出的“公元 214 年”“Germania Superior”标签拼进去，也没有把四个任务头的概率分布拼在一起。</strong></p>
+
+<p>为把手算收尾，假设前缀和三个字符经主干后得到：<code>h₁=[2,0]</code>，三个字符表示为 <code>[1,0]、[0,1]、[1,1]</code>。这里重新假设了最终表示，<strong>不是声称前面的 Attention 已算出 16 层输出</strong>。N=4，字符项为 <code>[2,2]/4=[0.5,0.5]</code>，故 <code>z=([2,0]+[0.5,0.5])/2=[1.25,0.25]</code>。</p>
+
+<p>再与数据库候选比较。余弦相似度只比较方向：<code>cos(z,d)=(z·d)/(‖z‖‖d‖)</code>，向量长度就是这排数字的几何长度。若 <code>dA=[1,0]</code>、<code>dB=[0,1]</code>，可算得 A 约 0.981、B 约 0.196，所以 A 排在前面。数值是<strong>相似分数，不是历史相关的概率</strong>。</p>
+
+<div class="lab">
+<h3>直观看余弦：只改变方向</h3>
+<p class="micro">查询 q 固定指向右；这是二维几何，不是模型真实降维结果。</p><svg viewBox="0 0 540 280" role="img" aria-label="查询向量向右，候选向量随滑条转动"><line x1="30" y1="230" x2="510" y2="230" stroke="#a0b3a4"/><line x1="270" y1="255" x2="270" y2="20" stroke="#a0b3a4"/><line x1="270" y1="230" x2="455" y2="230" stroke="#ad753d" stroke-width="4"/><text x="465" y="220" fill="#85562b">q</text><line id="candidate-vector" x1="270" y1="230" x2="400" y2="100" stroke="#26745b" stroke-width="4"/><text id="candidate-label" x="400" y="90" fill="#26745b">d</text></svg><div class="slider-row"><label for="vec-angle">夹角 <strong id="angle-value">45°</strong></label><input id="vec-angle" type="range" min="0" max="180" step="5" value="45"><output class="big-number" id="cos-value" for="vec-angle">0.707</output></div>
+<p id="vector-explain"></p></div>
+
+<p>数据库里每条训练集铭文的向量可以预先算好。查询只需用同一个模型得到 z，再与候选向量比较、排序、返回真实文字和元数据。检索没有额外生成一段“看似真实”的铭文充作史料，也不自动证明两条记录存在传播、借鉴或同源关系。</p>
+
+<h3>讲贡献之前，先知道指标到底在测什么</h3>
+<p>本讲只补上汇报必须掌握的判断，完整实验阅读仍留在后续课程规划中。</p>
+<table class="mini-table"><thead><tr><th>证据 / 指标</th><th>可以怎么讲</th><th>不能推出什么</th></tr></thead><tbody><tr><td>CER、Top-20</td><td>CER 是修复与参考答案的字符编辑误差，越低越好；Top-20 看正确修复是否进入前 20 个候选。Table 2 还按缺损长度分层平均。</td><td>修复 Top-20 不是“历史检索前 20 条的准确率”。</td></tr><tr><td>地域 Top-1 / Top-3</td><td>62 个行省中，正确省份是否排第 1 或前 3；Table 2 Aeneas 为 72.3% / 83.9%。</td><td>不是现代 GPS 精确定位，也不是普适于所有地区。</td></tr><tr><td>年代距离</td><td>预测均值落在参考区间内记 0，否则算距最近边界的年数；Table 2 平均 13.4 年。</td><td>区间很宽时也可能记 0，不代表精确到某一年。</td></tr><tr><td>Table 1 人机研究</td><td>23 位历史研究者参与；加入平行铭文与模型预测后，论文报告修复与地域任务的人机协作收益。</td><td>与 Table 2 的全自动评估不同，不能把两表数值混成一套排名。</td></tr><tr><td>75% / 90%</td><td>分别对应仅给平行铭文、再给预测时，受试者反馈可作为研究起点的比例。</td><td>不是“检索准确率 90%”，更不是历史联系得到证明的比例。</td></tr></tbody></table>
+
+<p class="footnote">Table 2 的未知长度修复 CER 为 66.1%，已知长度为 40.5%：难度增加后明显变差。不要把正文笼统的“15%”表述当作这两格 CER 的直接差值，也不要隐去这一代价。</p>
+<div class="anchor-list"><a href="https://www.nature.com/articles/s41586-025-09292-5/tables/1">核对 Table 1</a><a href="https://www.nature.com/articles/s41586-025-09292-5/tables/2">核对 Table 2</a><a href="https://www.nature.com/articles/s41586-025-09292-5/figures/4">Extended Data Fig. 1 表示空间</a></div>
+<div class="talk"><strong>课堂讲法 · 可以直接复述</strong>真正的贡献是把铭文学代理任务、历史平行检索、地域视觉线索与未知长度修复组织起来，并用历史学者研究检验辅助价值；不是发明 Attention，也不是已经证明机器能独立作历史判断。</div>
+<details class="question"><summary>可能追问：论文还没有充分证明什么？</summary>
+<p>没有通过完整逐组件消融，独立确认每个任务、每层或每个注意力头对检索的贡献；不能从 UMAP 图直接读出高维检索质量；人机实验规模与限时流程不能代表所有史学研究；拉丁铭文数据和既有标注会带来分布与标注偏差。案例支持可用性，不足以证明任何一条相似关系的历史因果。</p></details>
+<button class="mark-button" type="button" data-mark="5" aria-pressed="false">□ 已掌握：能串联完整链路并说明贡献与证据边界</button></section>
+
+<section class="chapter" id="test"><div class="chapter-number">RECALL / 用计算检查理解</div>
+<h2>三道测验：先作答，再看解释</h2><div class="quiz-card" data-answer="b" role="group" aria-labelledby="quiz-q1"><div class="quiz-title" id="quiz-q1">01. s 的教学注意力权重约 [0.401,0.198,0.401]。接下来应做什么？</div><label><input type="radio" name="q1" value="a">把三个 K 向量加权，得到修复的最终字符</label><label><input type="radio" name="q1" value="b">把三个 V 向量加权，得到当前头更新后的 s 表示</label><label><input type="radio" name="q1" value="c">把三个权重当作历史正确率</label><div class="feedback" aria-live="polite"></div></div><div class="quiz-card" data-answer="c" role="group" aria-labelledby="quiz-q2"><div class="quiz-title" id="quiz-q2">02. 检索时为什么可能包含年代信息，却不用把预测年份拼进去？</div><label><input type="radio" name="q2" value="a">每检索一次都会用正确年份训练一遍</label><label><input type="radio" name="q2" value="b">历史相关铭文对都已被人工标注</label><label><input type="radio" name="q2" value="c">年代任务在训练中更新共享主干，检索再聚合该主干的表示</label><div class="feedback" aria-live="polite"></div></div><div class="quiz-card" data-answer="a" role="group" aria-labelledby="quiz-q3"><div class="quiz-title" id="quiz-q3">03. 对 Fig. 2 哪一种解释符合论文及公开实现？</div><label><input type="radio" name="q3" value="a">文字主干可看两侧；图像在地域分支融合；检索取文字主干输出</label><label><input type="radio" name="q3" value="b">decoder 一定只看左侧，必须像 GPT 一样从左到右补字</label><label><input type="radio" name="q3" value="c">照片直接流入所有任务和检索向量</label><div class="feedback" aria-live="polite"></div></div><button type="button" class="demo-button" id="grade">检查答案</button>
+<p id="quiz-summary" class="micro" aria-live="polite"></p></section>
+
+
+<section class="chapter" id="report"><div class="chapter-number">REPORT / 20 分钟的研究故事</div>
+<h2>按问题、方法、证据组织汇报</h2>
+<p>这份提纲帮助你把已学内容讲出来，并不表示第三至第六讲已经发布。上台主讲流程，完整手算保留一行，详细矩阵可放备份页。</p><ol class="report-plan"><li><strong>0–3 分钟：历史问题。</strong>用美因茨案例区分“读出文字”和“找到参照”；说明结果是研究起点。</li><li><strong>3–6 分钟：整体方法。</strong>展示完整 Fig. 2，先指出文本主干、四头与检索，再解释图像只接地域。</li><li><strong>6–11 分钟：机制。</strong>沿 senatus 讲 ID→Embedding，用 s 的一行解释 Q/K/V、Softmax 和 V 汇总；用一张完整层图收束多头、FFN、残差、16 层。</li><li><strong>11–14 分钟：为什么能用于历史检索。</strong>损失→梯度→共享表示；按论文公式聚合，不拼预测年份。</li><li><strong>14–18 分钟：实验与代价。</strong>区分两张表；解释 CER、地域准确率和年代区间距离；指出 90% 是用户反馈、未知长度修复更难。</li><li><strong>18–20 分钟：贡献与局限。</strong>强调历史工作流的任务设计与验证，说明没有完整消融、相似不等于历史证明。</li></ol>
+<p><strong>合上页面试讲：</strong>能否不念术语，从 s 的输入解释到真实铭文候选？能否指出原图中“没有”的图像→检索路径？如果仍卡住，返回对应计算，而不是增加更多术语。</p></section>
+
+
+<section class="chapter" id="sources"><div class="chapter-number">SOURCES / 可以核对的依据</div>
+<h2>原文、实现与教学边界</h2><ol class="source-list"><li><a href="https://www.nature.com/articles/s41586-025-09292-5">Assael et al., Nature 645, 141–147 (2025)</a>：正文、Fig. 2；Methods 的 Aeneas’ architecture、Training Aeneas、Aeneas’ contextualization mechanism 和 Task metrics。</li><li><a href="https://github.com/google-deepmind/predictingthepast/blob/main/predictingthepast/models/model.py">官方 model.py</a>：T5DecoderLayer、非因果有效位 mask、Pre-norm、图像仅融合地域、torso_output。<a href="https://github.com/google-deepmind/predictingthepast/blob/main/predictingthepast/models/t5_layers.py">t5_layers.py</a>：RoPE 和 Attention；<a href="https://github.com/google-deepmind/predictingthepast/blob/main/train/config_latin.py">config_latin.py</a>：384 / 1536、16 层 / 8 头配置。实现解释不替代论文实验。</li><li><a href="../assets/paper/README.md">原图来源与许可记录</a>。本讲 Fig. 2 完整原样展示；原创教学 SVG 独立绘制。所有 ID、二维参数、权重、更新例子均非真实 Aeneas 输出；真实配置与模拟维度明确分开。</li></ol></section>
+
+
+<section class="continuation"><div class="overline">COURSE PLAN</div>
+<h2>第三至第六讲仍为规划</h2>
+<p>后续将继续精读架构、搜索、实验及完整答辩材料。当前先把前两讲的方法链路学扎实。</p></section>
+
+<nav class="lesson-nav"><a href="01.html">← 第一讲</a><a href="../index.html">返回课程目录 →</a></nav><footer class="footer">第二讲 · 阅读记录仅存本浏览器 · <button type="button" id="clear-progress">清除本讲阅读记录</button></footer></main></div></body></html>
